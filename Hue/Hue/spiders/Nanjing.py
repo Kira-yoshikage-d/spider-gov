@@ -1,8 +1,9 @@
 import scrapy
 from scrapy import Request
+from Hue.base import ZhengFuBaseSpider
 
 
-class NanjingSpider(scrapy.Spider):
+class NanjingSpider(ZhengFuBaseSpider):
     """ Ajax """
     name = 'Nanjing'
     allowed_domains = ['nanjing.gov.cn']
@@ -21,7 +22,7 @@ class NanjingSpider(scrapy.Spider):
                     callback=self.parse_index
                     )
             yield request
-        
+
     def build_url(self, keyword):
         api = self.api
         url = api.format(keyword, keyword)
