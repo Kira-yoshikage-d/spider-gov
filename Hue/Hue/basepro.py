@@ -113,6 +113,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
     def parse_item(self, item, keyword):
         item = self.edit_item(item)
         item["keyword"] = keyword
+        if not item["url"]:
+            return None
         return item
 
     @abc.abstractmethod
