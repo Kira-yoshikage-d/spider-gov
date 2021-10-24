@@ -43,13 +43,13 @@ class ZhengFuBaseSpider(scrapy.Spider):
             raise Exception("Need method!")
 
         if method == "GET":
-            yield from self.start_get_requests(page=1, callback=self.parse_index)
+            yield from self.start_get_requests(page=self.start_page, callback=self.parse_index)
         elif method == "POST":
-            yield from self.start_post_requests(page=1, callback=self.parse_index)
+            yield from self.start_post_requests(page=self.start_page, callback=self.parse_index)
         else:
             raise Exception("Invalid method!")
 
-    def start_get_requests(self, page=None, callback=None):
+    def start_get_requests(self, page=None, callback=None, meta=None):
         keywords = self.keywords
         api = self.api
         headers = self.headers
@@ -57,6 +57,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             url = api.format(keyword=keyword, page=page)
             req = Request(
                 url=url,
+                meta={"keyword": keyword},
                 headers=headers,
                 callback=callback
                 )
@@ -66,10 +67,12 @@ class ZhengFuBaseSpider(scrapy.Spider):
         keywords = self.keywords
         url = self.api
         headers = self.headers
+        self.logger.debug("爬取 第{}页".format(page))
         for keyword in keywords:
             data = self.build_data(keyword, page)
             req = FormRequest(
                 url=url,
+                meta={"keyword": keyword},
                 headers=headers,
                 formdata=data,
                 callback=callback
@@ -85,6 +88,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             yield from self.parse_items(response)
         # 获取总页数
         total_page = self.edit_page(response)
+        self.logger.debug("总页数: {}".format(total_page))
         end_page = start_page + total_page
         # 抛出余下页的请求
         if self.method == "GET":
@@ -102,11 +106,13 @@ class ZhengFuBaseSpider(scrapy.Spider):
     def parse_items(self, response):
         items_box = self.edit_items_box(response)
         items = self.edit_items(items_box)
+        keyword = response.meta["keyword"]
         for item in items:
-            yield self.parse_item(item)
+            yield self.parse_item(item, keyword)
 
-    def parse_item(self, item):
+    def parse_item(self, item, keyword):
         item = self.edit_item(item)
+        item["keyword"] = keyword
         return item
 
     @abc.abstractmethod
