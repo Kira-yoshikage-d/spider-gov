@@ -8,7 +8,6 @@ class FuzhouSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.jxfz.gov.cn//']
     api = "http://www.jxfz.gov.cn/jrobot/search.do?webid=1&pg=12&p={page}&tpl=&category=&q={keyword}&pos=title,content&od=&date=,"
     method = "GET"
-    keywords = ["煤炭"]
 
     def edit_page(self, response):
         total_items_nums = response.css("div.jsearch-info-box::attr(data-total)").get()

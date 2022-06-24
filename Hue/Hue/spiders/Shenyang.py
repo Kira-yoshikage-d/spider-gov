@@ -1,9 +1,10 @@
-import time
 import re
-import scrapy
-from scrapy.shell import inspect_response
+import time
+
 import requests
+import scrapy
 from Hue.basepro import ZhengFuBaseSpider
+from scrapy.shell import inspect_response
 
 token_rex = re.compile(
     pattern="initPubProperty\(.*?attrs",
@@ -18,7 +19,6 @@ class ShenyangSpider(ZhengFuBaseSpider):
     start_urls = ['http://www.shenyang.gov.cn/']
     api = 'https://api.so-gov.cn/s'
     token_api = 'http://www.shenyang.gov.cn/so/s?qt={keyword}&siteCode=2101000053&tab=all&toolsStatus=1'
-    keywords = ['煤炭']
     method = "POST"
     token_cache = {}
     data = {

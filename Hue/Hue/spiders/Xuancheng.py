@@ -7,7 +7,6 @@ class XuanchengSpider(ZhengFuBaseSpider):
     allowed_domains = ['xuancheng.gov.cn']
     start_urls = ['http://http://www.xuancheng.gov.cn//']
     api = "http://search.xuancheng.gov.cn/searchData?keyword={keyword}&siteId=1&field=all&page={page}"
-    keywords = ["煤炭"]
     method = "GET"
 
     def edit_items_box(self, response):

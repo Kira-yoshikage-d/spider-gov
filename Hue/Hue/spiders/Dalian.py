@@ -8,7 +8,6 @@ class DalianSpider(ZhengFuBaseSpider):
     allowed_domains = ['dl.gov.cn']
     start_urls = ['http://https://www.dl.gov.cn//']
     api = "https://www.dl.gov.cn/dhc/searchJs/retrieval?question={keyword}&pageNum={page}"
-    keywords = ["煤炭"]
     method = "GET"
 
     def edit_items_box(self, response):

@@ -8,7 +8,6 @@ class WuzhongSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.wuzhong.gov.cn//']
     api = "http://www.wuzhong.gov.cn/was5/web/outlinecontent"
     method = "POST"
-    keywords = ["煤炭"]
     data = {
         "page": "{page}",
         "channelid": "294305",

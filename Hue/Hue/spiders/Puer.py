@@ -1,5 +1,6 @@
-import scrapy
 import base64
+
+import scrapy
 from Hue.basepro import ZhengFuBaseSpider
 
 
@@ -9,7 +10,6 @@ class PuerSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.puershi.gov.cn//']
     method = "POST"
     api = "http://www.puershi.gov.cn/zhjsjgy.jsp"
-    keywords = ["煤炭"]
     data = {
         "wbtreeid": "1001",
         "keyword": "{keyword}",

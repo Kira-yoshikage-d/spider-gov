@@ -1,0 +1,7 @@
+#!/bin/sh
+
+scrapy crawl $1 -o test/$1.json > log/$1 2>&1
+
+echo "$SCRAPY_INDEX ok"
+
+SCRAPY_INDEX=SCRAPY_INDEX+1

@@ -10,7 +10,6 @@ class ChangzhouSpider(ZhengFuBaseSpider):
     api = "http://search.changzhou.gov.cn/index.php?c=index&a=search&keyword={keyword}&referer=&range=2&edit=0&lanmu=0&sitename=all&sort=3&time=0&page={page}&contype=0"
 
     method = "GET"
-    keywords = ["煤炭"]
 
     def edit_items_box(self, response):
         raw_data = response.json()

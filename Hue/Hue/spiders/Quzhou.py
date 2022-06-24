@@ -1,6 +1,6 @@
 import scrapy
-from scrapy.selector import Selector
 from Hue.basepro import ZhengFuBaseSpider
+from scrapy.selector import Selector
 
 
 class QuzhouSpider(ZhengFuBaseSpider):
@@ -9,7 +9,6 @@ class QuzhouSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.qz.gov.cn//']
     api = "http://search.zj.gov.cn/jrobotfront/interfaces/cateSearch.do"
     method = "POST"
-    keywords = ["煤炭"]
     data ={
         "q": "{keyword}",
         "websiteid": "330801000000000",

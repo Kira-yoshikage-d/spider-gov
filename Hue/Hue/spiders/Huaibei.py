@@ -9,7 +9,6 @@ class HuaibeiSpider(ZhengFuBaseSpider):
     api = "http://www.huaibei.gov.cn/site/tpl/3361?isAllSite=true&platformCode=&siteId=&columnId=&columnIds=&typeCode=articleNews,pictureNews,videoNews,policyDoc,explainDoc&beginDate=&endDate=&fromCode=&keywords={keyword}&excColumns=&datecode=&sort=intelligent&type=&tableColumnId=&subkeywords={keyword}&orderType=0&indexNum=&fileNum=&pid=&language=&flag=false&searchType=&searchTplId=&fuzzySearch=true&internalCall=&catIds=&colloquial=true&pageIndex={page}&pageSize=10"
 
     method = "GET"
-    keywords = ['煤炭']
 
     def edit_items_box(self, response):
         items_box = response.css("div#search_list")

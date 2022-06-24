@@ -8,7 +8,6 @@ class ZhongshanSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.zs.gov.cn//']
     api = "http://search.gd.gov.cn/api/search/all"
     method = "POST"
-    keywords = ["煤炭"]
     data = {
         "gdbsDivision": "442000",
         "keywords": "{keyword}",

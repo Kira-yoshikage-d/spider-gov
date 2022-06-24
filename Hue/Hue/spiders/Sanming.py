@@ -7,7 +7,6 @@ class SanmingSpider(ZhengFuBaseSpider):
     allowed_domains = ['sm.gov.cn']
     api = "http://www.sm.gov.cn/smartSearch/interface/resource/list.do"
     method = "POST"
-    keywords = ["煤炭"]
     data = {
         "pagesize": "10",
         "currentpage": "{page}",

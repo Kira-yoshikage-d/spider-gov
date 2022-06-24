@@ -8,7 +8,6 @@ class ChenzhouSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.changsha.gov.cn//']
     api = "http://searching.hunan.gov.cn:8977/hunan/974000000/news?q={key}&searchfields=&sm=0&columnCN=&iszq=&aggr_iszq=&p=3&timetype=timeqb"
     method = "GET"
-    keywords = ["煤炭"]
     start_page = 0
 
     def edit_page(self, response):

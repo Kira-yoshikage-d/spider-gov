@@ -7,7 +7,6 @@ class XiangtanSpider(ZhengFuBaseSpider):
     allowed_domains = ['xiangtan.gov.cn', 'hunan.gov.cn']
     method = "GET"
     api = "http://searching.hunan.gov.cn:8977/hunan/974000000/news?q={keyword}&searchfields=&sm=0&columnCN=&iszq=&aggr_iszq=&p={page}&timetype=timeqb"
-    keywords = ["煤炭"]
     start_page = 0
 
     def edit_page(self, response):

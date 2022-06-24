@@ -1,6 +1,6 @@
 import scrapy
-from scrapy.selector import Selector
 from Hue.basepro import ZhengFuBaseSpider
+from scrapy.selector import Selector
 
 
 class JinanSpider(ZhengFuBaseSpider):
@@ -9,7 +9,6 @@ class JinanSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.jinan.gov.cn//']
     api = "http://www.jinan.gov.cn/jsearchfront/interfaces/cateSearch.do"
     method = "POST"
-    keywords = ["煤炭"]
     data = {
         "websiteid": "370100000000000",
         "q": "{keyword}",

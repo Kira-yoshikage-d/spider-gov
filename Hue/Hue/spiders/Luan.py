@@ -8,7 +8,6 @@ class LuanSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.luan.gov.cn//']
     method = "GET"
     api = "http://www.luan.gov.cn/site/search/6789941?platformCode=&isAllSite=true&siteId=&columnId=&columnIds=&typeCode=public_content&beginDate=&endDate=&fromCode=&keywords={keyword}&oldKeywords=&subkeywords=&filterKeyWords=&excColumns=&datecode=&sort=intelligent&orderType=0&fuzzySearch=true&type=&tableColumnId=&indexNum=&fileNum=&flag=false&pageIndex={page}&pageSize=10"
-    keywords = ["啊啊啊啊啊啊"]
 
     def edit_items_box(self, response):
         items_box = response.css("div#search_list")

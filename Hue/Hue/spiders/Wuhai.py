@@ -1,5 +1,6 @@
-import scrapy
 from copy import copy
+
+import scrapy
 from fake_useragent import UserAgent
 from scrapy import FormRequest
 
@@ -11,7 +12,6 @@ class WuhaiSpider(scrapy.Spider):
     allowed_domains = ['wuhai.gov.cn']
     start_urls = ['http://www.wuhai.gov.cn/']
     api = "http://www.wuhai.gov.cn/search/pcRender?pageId=63493493b61047b8be9bc396fa236e60"
-    keywords = ["人民"]
     debug = False
     data = {
         "originalSearchUrl": "/search/pcRender?pageId=63493493b61047b8be9bc396fa236e60",

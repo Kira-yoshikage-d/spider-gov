@@ -1,6 +1,6 @@
 import scrapy
-from scrapy.selector import Selector
 from Hue.basepro import ZhengFuBaseSpider
+from scrapy.selector import Selector
 
 
 class YantaiSpider(ZhengFuBaseSpider):
@@ -9,7 +9,6 @@ class YantaiSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.yantai.gov.cn//']
     api = "http://www.yantai.gov.cn/jsearchfront/interfaces/cateSearch.do"
     method = "POST"
-    keywords = ["社保"]
     data = {
         "websiteid": "370600000000000",
         "q": "{keyword}",

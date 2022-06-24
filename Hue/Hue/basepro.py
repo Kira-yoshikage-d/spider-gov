@@ -1,7 +1,12 @@
 import abc
-import scrapy
 import copy
-from scrapy import Request, FormRequest
+
+import scrapy
+from scrapy import FormRequest, Request
+from scrapy.responsetypes import Response
+from termcolor import colored
+
+from Hue import g_keywords
 
 
 class ZhengFuBaseSpider(scrapy.Spider):
@@ -9,13 +14,16 @@ class ZhengFuBaseSpider(scrapy.Spider):
     allowed_domains = ['']
     start_urls = ['']
     # 关键字
-    keywords = []
+    keywords = g_keywords
     # API
     api = ""
     # 模式 GET/POST
     method = "default"
     # 测试用 headers
-    headers = {"User-Agent": "Google Bot"}
+    headers = {
+        "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
+    }
     # 数据模板
     data = {}
     # 是否解析第一页
@@ -43,9 +51,11 @@ class ZhengFuBaseSpider(scrapy.Spider):
             raise Exception("Need method!")
 
         if method == "GET":
-            yield from self.start_get_requests(page=self.start_page, callback=self.parse_index)
+            yield from self.start_get_requests(page=self.start_page,
+                                               callback=self.parse_index)
         elif method == "POST":
-            yield from self.start_post_requests(page=self.start_page, callback=self.parse_index)
+            yield from self.start_post_requests(page=self.start_page,
+                                                callback=self.parse_index)
         else:
             raise Exception("Invalid method!")
 
@@ -55,12 +65,10 @@ class ZhengFuBaseSpider(scrapy.Spider):
         headers = self.headers
         for keyword in keywords:
             url = api.format(keyword=keyword, page=page)
-            req = Request(
-                url=url,
-                meta={"keyword": keyword},
-                headers=headers,
-                callback=callback
-                )
+            req = Request(url=url,
+                          meta={"keyword": keyword},
+                          headers=headers,
+                          callback=callback)
             yield req
 
     def start_post_requests(self, page=None, callback=None):
@@ -70,33 +78,36 @@ class ZhengFuBaseSpider(scrapy.Spider):
         self.logger.debug("爬取 第{}页".format(page))
         for keyword in keywords:
             data = self.build_data(keyword, page)
-            req = FormRequest(
-                url=url,
-                meta={"keyword": keyword},
-                headers=headers,
-                formdata=data,
-                callback=callback
-                )
+            req = FormRequest(url=url,
+                              meta={"keyword": keyword},
+                              headers=headers,
+                              formdata=data,
+                              callback=callback)
             yield req
 
-    def parse_index(self, response):
+    def parse_index(self, response: Response):
         parse_first = self.parse_first
         start_page = self.start_page
+        # 获取总页数
+        total_page = self.edit_page(response)
+        self.logger.debug(
+            colored(
+                "关键字[{}] 总页数: {}".format(response.meta.get('keyword'),
+                                         total_page), "red"))
+        end_page = start_page + total_page
         if parse_first:
             start_page += 1
             # 解析当前页
             yield from self.parse_items(response)
-        # 获取总页数
-        total_page = self.edit_page(response)
-        self.logger.debug("总页数: {}".format(total_page))
-        end_page = start_page + total_page
         # 抛出余下页的请求
         if self.method == "GET":
             for page in range(start_page, end_page):
-                yield from self.start_get_requests(page=page, callback=self.parse_items)
+                yield from self.start_get_requests(page=page,
+                                                   callback=self.parse_items)
         elif self.method == "POST":
             for page in range(start_page, end_page):
-                yield from self.start_post_requests(page=page, callback=self.parse_items)
+                yield from self.start_post_requests(page=page,
+                                                    callback=self.parse_items)
 
     def build_data(self, keyword, page):
         data = copy.copy(self.data)
@@ -118,8 +129,9 @@ class ZhengFuBaseSpider(scrapy.Spider):
         return item
 
     @abc.abstractmethod
-    def edit_data(self, data, keyword, page):
+    def edit_data(self, data: dict, keyword: str, page: int):
         """
+        当请求方法为POST时应该发出的数据包
         input:
         data:dict
         return:
@@ -128,8 +140,9 @@ class ZhengFuBaseSpider(scrapy.Spider):
         raise Exception("Must rewrite edit_data")
 
     @abc.abstractmethod
-    def edit_items_box(self, response):
+    def edit_items_box(self, response: Response):
         """
+        从原始响应解析出包含items的容器
         input: response
         return: items_box
         """
@@ -138,6 +151,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
     @abc.abstractmethod
     def edit_items(self, items_box):
         """
+        从items容器中解析出items的迭代容器
         input: items_box
         return: items
         """
@@ -146,13 +160,14 @@ class ZhengFuBaseSpider(scrapy.Spider):
     @abc.abstractmethod
     def edit_item(self, item):
         """
-        input: item
+        将从items容器中迭代出的item解析出信息
+        input: items
         return: item_dict
         """
         return item
 
     @abc.abstractmethod
-    def edit_page(self, response):
+    def edit_page(self, response: Response) -> int:
         """
         input: response
         return: int

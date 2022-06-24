@@ -8,7 +8,6 @@ class YinchuanSpider(ZhengFuBaseSpider):
     start_urls = ['http://http://www.yinchuan.gov.cn//']
     api = "http://www.yinchuan.gov.cn/was5/web/outlinecontent"
     method = "POST"
-    keywords = ["煤炭"]
     data = {
         "page": "{page}",
         "channelid": "232595",
