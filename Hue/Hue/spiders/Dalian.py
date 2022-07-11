@@ -3,7 +3,8 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class DalianSpider(ZhengFuBaseSpider):
-    """AJAX"""
+    """AJAX
+    TODO crawl"""
     name = 'Dalian'
     allowed_domains = ['dl.gov.cn']
     start_urls = ['http://https://www.dl.gov.cn//']
@@ -26,7 +27,5 @@ class DalianSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data['title'] = item['xqtitle']
         data['url'] = item['xqurl']
-        data['date'] = item['loadtime']
         return data

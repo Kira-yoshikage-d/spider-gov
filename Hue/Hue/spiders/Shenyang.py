@@ -13,10 +13,9 @@ token_rex = re.compile(
 
 
 class ShenyangSpider(ZhengFuBaseSpider):
-    """POST"""
+    """POST
+    TODO token 反爬"""
     name = 'Shenyang'
-    allowed_domains = ['shenyang.gov.cn', 'so-gov.cn']
-    start_urls = ['http://www.shenyang.gov.cn/']
     api = 'https://api.so-gov.cn/s'
     token_api = 'http://www.shenyang.gov.cn/so/s?qt={keyword}&siteCode=2101000053&tab=all&toolsStatus=1'
     method = "POST"

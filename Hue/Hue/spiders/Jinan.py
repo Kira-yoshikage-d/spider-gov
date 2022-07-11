@@ -4,16 +4,15 @@ from scrapy.selector import Selector
 
 
 class JinanSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Jinan'
-    allowed_domains = ['jinan.gov.cn']
-    start_urls = ['http://http://www.jinan.gov.cn//']
     api = "http://www.jinan.gov.cn/jsearchfront/interfaces/cateSearch.do"
     method = "POST"
     data = {
         "websiteid": "370100000000000",
         "q": "{keyword}",
         "p": "{page}",
-        "pg": "12",
+        "pg": "10",
         "pos": "",
         "cateid": "1163",
         "tpl": "541"
@@ -35,13 +34,11 @@ class JinanSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data["title"] = ''.join([w.strip() for w in item.css("div.jcse-news-title").css("a::text,em::text").getall()])
         data["url"] = item.css("div.jcse-news-url > a::text").get()
-        data['date'] = item.css("span.jcse-news-date::text").get()
         return data
 
     def edit_page(self, response):
         raw_data = response.json()
         total_items_num = raw_data.get("total")
-        total_page_num = int(total_items_num) // 12 + 1
+        total_page_num = int(total_items_num) // 10 + 1
         return total_page_num

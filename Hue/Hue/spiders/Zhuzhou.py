@@ -3,9 +3,8 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class ZhuzhouSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Zhuzhou'
-    allowed_domains = ['zhuzhou.gov.cn', 'hunan.gov.cn']
-    start_urls = ['http://www.zhuzhou.gov.cn/']
     api = "http://searching.hunan.gov.cn/hunan/973000000/news?q={keyword}&searchfields=&sm=0&columnCN=&iszq=&aggr_iszq=&p={page}&timetype=timeqb"
     method = "GET"
     start_page = 0
@@ -26,7 +25,5 @@ class ZhuzhouSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data["title"] = item.css("div.title > a::attr(title)").get()
-        data["date"] = item.css("span.source-time::text").get()
         data["url"] = item.css("div.title > a::attr(href)").get()
         return data

@@ -4,9 +4,8 @@ from scrapy.selector import Selector
 
 
 class YantaiSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Yantai'
-    allowed_domains = ['yantai.gov.cn']
-    start_urls = ['http://http://www.yantai.gov.cn//']
     api = "http://www.yantai.gov.cn/jsearchfront/interfaces/cateSearch.do"
     method = "POST"
     data = {
@@ -41,9 +40,7 @@ class YantaiSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data["title"] = ''.join([w.strip() for w in item.css("div.jcse-news-title").css("a::text,em::text").getall()])
         data['url'] = item.css("div.jcse-news-title a::attr(href)").get()
-        data['date'] = item.css("span.jcse-news-date::text").get()
         return data
 
     def edit_page(self, response):

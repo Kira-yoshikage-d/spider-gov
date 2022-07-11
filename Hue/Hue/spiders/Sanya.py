@@ -1,10 +1,25 @@
-import scrapy
+from scrapy.responsetypes import Response
+from Hue.basepro import ZhengFuBaseSpider
 
-
-class SanyaSpider(scrapy.Spider):
+class SanyaSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Sanya'
-    allowed_domains = ['http://www.sanya.gov.cn/']
-    start_urls = ['http://http://www.sanya.gov.cn//']
+    method = "GET"
+    api = "http://search.sanya.gov.cn/s?searchWord={keyword}&column=%E5%85%A8%E7%AB%99&pageSize=10&pageNum={page}" \
+          "&siteCode=4602000035&sonSiteCode=&checkHandle=1&searchSource=0&govWorkBean=%7B%7D&areaSearchFlag=-1" \
+          "&secondSearchWords=&topical=&docName=&label=&countKey=0&uc=0&left_right_index=0&searchBoxSettingsIndex" \
+          "=&manualWord={keyword}&orderBy=0&startTime=&endTime=&timeStamp=0&strFileType=&wordPlace=1 "
 
-    def parse(self, response):
-        pass
+    def edit_page(self, response: Response) -> int:
+        total_num = response.css("body > div:nth-child(3) > div > div.leftSide-layer.fl > div.results-list.clearfix > "
+                                 "div > p > span::text").get()
+        return int(total_num) // 10 + 1
+
+    def edit_items_box(self, response: Response):
+        return response.css("div.wordGuide.Residence-permit")
+
+    def edit_item(self, item):
+        result = {}
+        result['url'] = item.css("div.bigTit.clearfix > a::attr(href)").get()
+        return result
+

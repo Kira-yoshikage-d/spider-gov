@@ -3,10 +3,9 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class WuzhongSpider(ZhengFuBaseSpider):
+    """反爬"""
     name = 'Wuzhong'
-    allowed_domains = ['wuzhong.gov.cn']
-    start_urls = ['http://http://www.wuzhong.gov.cn//']
-    api = "http://www.wuzhong.gov.cn/was5/web/outlinecontent"
+    api = "http://wuzhong.gov.cn/irs/front/search"
     method = "POST"
     data = {
         "page": "{page}",

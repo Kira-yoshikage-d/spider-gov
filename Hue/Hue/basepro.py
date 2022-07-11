@@ -24,6 +24,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
     }
+    cookie = ""
     # 数据模板
     data = {}
     # 是否解析第一页
@@ -44,6 +45,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
         api = self.api
         if not api:
             raise Exception("Need API!")
+        if self.cookie:
+            self.headers['cookie'] = self.cookie
 
         self.logger.debug("check method")
         method = self.method
@@ -118,6 +121,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
         items_box = self.edit_items_box(response)
         items = self.edit_items(items_box)
         keyword = response.meta["keyword"]
+        if not items:
+            return
         for item in items:
             yield self.parse_item(item, keyword)
 

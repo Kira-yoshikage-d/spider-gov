@@ -5,6 +5,7 @@ from scrapy.shell import inspect_response
 
 
 class ChangzhouSpider(ZhengFuBaseSpider):
+    """DONE"""
     name = 'Changzhou'
     allowed_domains = ['changzhou.gov.cn']
     api = "http://search.changzhou.gov.cn/index.php?c=index&a=search&keyword={keyword}&referer=&range=2&edit=0&lanmu=0&sitename=all&sort=3&time=0&page={page}&contype=0"
@@ -21,16 +22,14 @@ class ChangzhouSpider(ZhengFuBaseSpider):
         items = []
         items_rec = items_box.css("div.sblock")  # 会有 10 阶，嵌套结构
         rec_deep = len(items_rec)
-        for _ in range(rec_deep-1):
-            items.append(self.diff(items_rec[_], items_rec[_+1]))
+        for _ in range(rec_deep - 1):
+            items.append(self.diff(items_rec[_], items_rec[_ + 1]))
         items.append(items_rec[-1])
         return items
 
     def edit_item(self, item):
         item_data = {}
-        item_data['title'] = ''.join(item.css("div.tit > a::text, div.tit > a > span::text").getall())
         item_data['url'] = item.css("div.dat > a::text").get()
-        item_data['date'] = item.css("div.dat::text").re("(.*) - .* - ")[0]
         return item_data
 
     def edit_page(self, response):

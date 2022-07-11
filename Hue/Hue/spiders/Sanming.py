@@ -3,6 +3,7 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class SanmingSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Sanming'
     allowed_domains = ['sm.gov.cn']
     api = "http://www.sm.gov.cn/smartSearch/interface/resource/list.do"

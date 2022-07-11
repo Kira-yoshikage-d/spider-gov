@@ -3,6 +3,7 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class ZhongshanSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Zhongshan'
     allowed_domains = ['zs.gov.cn', 'gd.gov.cn']
     start_urls = ['http://http://www.zs.gov.cn//']
@@ -38,7 +39,5 @@ class ZhongshanSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data["title"] = item.get("title", None)
         data["url"] = item.get("url", None)
-        data["date"] = item.get("pub_time", None)
         return data

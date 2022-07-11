@@ -3,6 +3,7 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class ChangshaSpider(ZhengFuBaseSpider):
+    """DONE"""
     name = 'Changsha'
     allowed_domains = ['changsha.gov.cn', 'hunan.gov.cn']
     start_urls = ['http://http://www.changsha.gov.cn//']
@@ -11,7 +12,8 @@ class ChangshaSpider(ZhengFuBaseSpider):
     start_page = 0
 
     def edit_page(self, response):
-        total_items_num = response.css("div.time-limit.result").re("相关结果约(.*)个")[0]
+        total_items_num = response.css("div.time-limit.result").re(
+            "相关结果约(.*)个")[0]
         total_page_num = int(total_items_num) // 10 + 1
         return total_page_num
 

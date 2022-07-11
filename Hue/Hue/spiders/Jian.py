@@ -1,10 +1,20 @@
-import scrapy
+from Hue.basepro import ZhengFuBaseSpider
+from scrapy.responsetypes import Response
 
-
-class JianSpider(scrapy.Spider):
+class JianSpider(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = 'Jian'
-    allowed_domains = ['http://www.jian.gov.cn/']
-    start_urls = ['http://http://www.jian.gov.cn//']
+    method = "GET"
+    api = "https://www.jian.gov.cn/index.php?c=api&m=essearchlist&inputorder=1&keyword={keyword}&messagetype=&siteid=&size=20&time=all&page={page}"
 
-    def parse(self, response):
-        pass
+    def edit_page(self, response: Response) -> int:
+        data = response.json()
+        return int(data.get('total', 0))
+
+    def edit_items_box(self, response: Response):
+        return response.json().get('data')
+
+    def edit_item(self, item):
+        result = {}
+        result['url'] = item.get('_source', {}).get('url', '')
+        return result

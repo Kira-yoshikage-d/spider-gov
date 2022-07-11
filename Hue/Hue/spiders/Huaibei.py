@@ -20,9 +20,7 @@ class HuaibeiSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data['title'] = item.css("li.search-title > a::attr(title)").get()
         data['url'] = item.css("li.search-title > a::attr(href)").get()
-        data['date'] = item.css("li.search-resources > span.date::text").get()
         return data
 
     def edit_page(self, response):

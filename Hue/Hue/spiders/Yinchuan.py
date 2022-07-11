@@ -3,9 +3,8 @@ from Hue.basepro import ZhengFuBaseSpider
 
 
 class YinchuanSpider(ZhengFuBaseSpider):
+    """反爬, 跳过"""
     name = 'Yinchuan'
-    allowed_domains = ['yinchuan.gov.cn']
-    start_urls = ['http://http://www.yinchuan.gov.cn//']
     api = "http://www.yinchuan.gov.cn/was5/web/outlinecontent"
     method = "POST"
     data = {
@@ -37,7 +36,5 @@ class YinchuanSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        data["title"] = item.css("a.js-title::text").get()
         data["url"] = item.css("a.js-title::attr(href)").get().strip()
-        data["date"] = item.css("p > span::text").get()
         return data
