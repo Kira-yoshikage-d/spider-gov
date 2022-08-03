@@ -1,8 +1,26 @@
 # README
 
-## 1. 如何使用 ZhengFuBaseSpider
+__本项目用于研究自用，请勿用于违法行为，否则后果自负。__
 
-### 属性
+## TODO
+
+- [ ] 完善文档
+- [ ] 重构代码，让爬虫再通用，稳健，易用一些
+- [ ] 编写接口，把两个独立模块合并
+
+## search_engine 用于编写网站对应的搜索引擎
+
+TODO
+
+## article_crawler 用于爬取文章内容
+
+TODO
+
+## API
+
+### 如何使用 ZhengFuBaseSpider
+
+#### 属性
 
     - name: str
 
@@ -44,7 +62,7 @@
     
       当 method 为 "POST" 时的 表格数据
 
-### 方法
+#### 方法
 
     - edit_data(self, data, keyword, pagej)
     
@@ -74,7 +92,7 @@
       
       实现为一个函数，返回值为 int
 
-## 2. ZhengFuBaseSpider 是怎样运行的
+#### ZhengFuBaseSpider 是怎样运行的
 
 1. 类的入口为 start_requests
 

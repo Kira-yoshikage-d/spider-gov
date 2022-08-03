@@ -1,8 +1,0 @@
-(undo-tree-save-format-version . 1)
-"a370d2f6783e5379fb528a8c7029bea7f2bf1b6c"
-[nil nil nil nil (25214 9304 677459 0) 0 nil]
-([nil nil ((#("    keywords = ['煤炭']
-" 0 4 (fontified t) 4 12 (fontified t face font-lock-variable-name-face) 12 15 (fontified t) 15 16 (fontified t face (rainbow-delimiters-depth-1-face)) 16 20 (fontified t face font-lock-string-face) 20 21 (fontified t face (rainbow-delimiters-depth-1-face)) 21 22 (fontified t)) . 442) (undo-tree-id2 . -20) (undo-tree-id3 . -20) (undo-tree-id4 . -22) (undo-tree-id5 . -21) (undo-tree-id6 . -21) (undo-tree-id7 . -21) (undo-tree-id8 . -21) (undo-tree-id9 . -21) (undo-tree-id10 . 2) (undo-tree-id11 . -21) (undo-tree-id12 . 7) (undo-tree-id13 . -16) (undo-tree-id14 . 7) (undo-tree-id15 . -16) (undo-tree-id16 . 2) (undo-tree-id17 . -21) 462 (t 24987 14792 0 0)) nil (25214 9304 677458 0) 0 nil])
-([nil current ((#("
-" 0 1 (fontified t)) . 45) (undo-tree-id0 . -1) (undo-tree-id1 . -1)) nil (25214 9304 677449 0) 0 nil])
-nil
