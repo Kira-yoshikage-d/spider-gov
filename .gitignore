@@ -1,5 +1,9 @@
-/*.csv
-/*.json
-.idea
+**/*.csv
+**/*.json
+
+/article_crawler/data/content
+/article_crawler/data/uniq
+/.idea
+/.DS_Store
 
 __pycache__/

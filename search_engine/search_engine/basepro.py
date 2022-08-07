@@ -6,7 +6,7 @@ from scrapy import FormRequest, Request
 from scrapy.responsetypes import Response
 from termcolor import colored
 
-from Hue import g_keywords
+from search_engine import g_keywords
 
 
 class ZhengFuBaseSpider(scrapy.Spider):
