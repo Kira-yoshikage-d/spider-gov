@@ -1,7 +1,7 @@
 import base64
 
 import scrapy
-from Hue.basepro import ZhengFuBaseSpider
+from search_engine.basepro import ZhengFuBaseSpider
 
 
 class PuerSpider(ZhengFuBaseSpider):

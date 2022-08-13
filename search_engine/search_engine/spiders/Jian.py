@@ -1,4 +1,4 @@
-from Hue.basepro import ZhengFuBaseSpider
+from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 
 class JianSpider(ZhengFuBaseSpider):

@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter
 
 
-class HuePipeline:
+class search_enginePipeline:
     def process_item(self, item, spider):
         return item

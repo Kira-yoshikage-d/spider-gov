@@ -1,6 +1,6 @@
 import scrapy
 from scrapy.responsetypes import Response
-from Hue.basepro import ZhengFuBaseSpider
+from search_engine.basepro import ZhengFuBaseSpider
 
 
 class HefeiSpider(ZhengFuBaseSpider):

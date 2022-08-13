@@ -1,5 +1,5 @@
 from scrapy.responsetypes import Response
-from Hue.basepro import ZhengFuBaseSpider
+from search_engine.basepro import ZhengFuBaseSpider
 
 class LiuzhouSpider(ZhengFuBaseSpider):
     """TODO crawl"""

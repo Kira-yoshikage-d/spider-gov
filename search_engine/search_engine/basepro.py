@@ -62,7 +62,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         else:
             raise Exception("Invalid method!")
 
-    def start_get_requests(self, page=None, callback=None, meta=None):
+    def start_get_requests(self, page=None, callback=None, meta=None, **kwargs):
         keywords = self.keywords
         api = self.api
         headers = self.headers
@@ -74,13 +74,13 @@ class ZhengFuBaseSpider(scrapy.Spider):
                           callback=callback)
             yield req
 
-    def start_post_requests(self, page=None, callback=None):
+    def start_post_requests(self, page=None, callback=None, **kwargs):
         keywords = self.keywords
         url = self.api
         headers = self.headers
         self.logger.debug("爬取 第{}页".format(page))
         for keyword in keywords:
-            data = self.build_data(keyword, page)
+            data = self.build_data(keyword, page, **kwargs)
             req = FormRequest(url=url,
                               meta={"keyword": keyword},
                               headers=headers,
@@ -105,16 +105,23 @@ class ZhengFuBaseSpider(scrapy.Spider):
         # 抛出余下页的请求
         if self.method == "GET":
             for page in range(start_page, end_page):
-                yield from self.start_get_requests(page=page,
-                                                   callback=self.parse_items)
+                yield from self.start_get_requests(
+                    page=page,
+                    callback=self.parse_items,
+                    last_response=response,
+                )
+
         elif self.method == "POST":
             for page in range(start_page, end_page):
-                yield from self.start_post_requests(page=page,
-                                                    callback=self.parse_items)
+                yield from self.start_post_requests(
+                    page=page,
+                    callback=self.parse_items,
+                    last_response=response,
+                )
 
-    def build_data(self, keyword, page):
+    def build_data(self, keyword, page, **kwargs):
         data = copy.copy(self.data)
-        data = self.edit_data(data, keyword, page)
+        data = self.edit_data(data, keyword, page, **kwargs)
         return data
 
     def parse_items(self, response):
@@ -134,13 +141,14 @@ class ZhengFuBaseSpider(scrapy.Spider):
         return item
 
     @abc.abstractmethod
-    def edit_data(self, data: dict, keyword: str, page: int):
+    def edit_data(self, data: dict, keyword: str, page: int, **kwargs):
         """
         当请求方法为POST时应该发出的数据包
         input:
         data:dict
         return:
         data:dict
+        kwagrs['last_response']
         """
         raise Exception("Must rewrite edit_data")
 

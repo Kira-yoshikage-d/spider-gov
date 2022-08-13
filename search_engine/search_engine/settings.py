@@ -11,6 +11,7 @@ BOT_NAME = 'search_engine'
 
 SPIDER_MODULES = ['search_engine.spiders']
 NEWSPIDER_MODULE = 'search_engine.spiders'
+TEMPLATES_DIR = 'search_engine/templates'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -46,13 +47,13 @@ FEED_EXPORT_ENCODING = 'utf-8'
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'search_engine.middlewares.HueSpiderMiddleware': 543,
+#    'search_engine.middlewares.search_engineSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'search_engine.middlewares.HueDownloaderMiddleware': 543,
+#    'search_engine.middlewares.search_engineDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -64,7 +65,7 @@ FEED_EXPORT_ENCODING = 'utf-8'
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'search_engine.pipelines.HuePipeline': 300,
+#    'search_engine.pipelines.search_enginePipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -3,7 +3,7 @@ import time
 
 import requests
 import scrapy
-from Hue.basepro import ZhengFuBaseSpider
+from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.shell import inspect_response
 
 token_rex = re.compile(

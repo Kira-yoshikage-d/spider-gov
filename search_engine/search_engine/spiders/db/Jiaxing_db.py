@@ -1,6 +1,6 @@
 import re
 
-from Hue.basepro import ZhengFuBaseSpider
+from search_engine.basepro import ZhengFuBaseSpider
 
 
 class JiaxingDbSpider(ZhengFuBaseSpider):
