@@ -2,7 +2,7 @@ import abc
 import copy
 
 import scrapy
-from scrapy import FormRequest, Request
+from scrapy import FormRequest, Request, Selector
 from scrapy.responsetypes import Response
 from termcolor import colored
 
@@ -11,8 +11,8 @@ from search_engine import g_keywords
 
 class ZhengFuBaseSpider(scrapy.Spider):
     name = ''
-    allowed_domains = ['']
     start_urls = ['']
+    allowed_domains = ['']
     # 关键字
     keywords = g_keywords
     # API
@@ -162,7 +162,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         raise Exception("Must rewrite edit_items_box")
 
     @abc.abstractmethod
-    def edit_items(self, items_box):
+    def edit_items(self, items_box: Selector):
         """
         从items容器中解析出items的迭代容器
         input: items_box
@@ -171,7 +171,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         return items_box
 
     @abc.abstractmethod
-    def edit_item(self, item):
+    def edit_item(self, item: Selector):
         """
         将从items容器中迭代出的item解析出信息
         input: items
