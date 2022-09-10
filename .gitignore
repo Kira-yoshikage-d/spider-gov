@@ -8,6 +8,6 @@
 /article_crawler/data/content
 /article_crawler/data/uniq
 /.idea
-/.DS_Store
+.DS_Store/
 
 __pycache__/
