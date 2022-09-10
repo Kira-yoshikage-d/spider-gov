@@ -8,7 +8,6 @@ from scrapy import FormRequest, Request
 from scrapy.shell import inspect_response
 from scrapy.responsetypes import Response
 from termcolor import colored
-from twisted.python.threadable import isInIOThread
 
 from search_engine import g_keywords
 
@@ -16,7 +15,6 @@ from search_engine import g_keywords
 class ZhengFuBaseSpider(scrapy.Spider):
     name: str = ''
     start_urls: List[str] = ['']
-    allowed_domains: List[str] = ['']
     # 关键字
     keywords: List[str] = g_keywords
     # API
@@ -173,12 +171,12 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def render_data_template(self, data: dict[str, str], keyword: str, page: Union[int, str]) -> dict[str, str]:
         for key, val in data.items():
-            if val == '{page}':
-                data[key] = str(page)
-            elif val == '{keyword}':
-                data[key] = str(keyword)
-            elif val == '{keywords}':
-                data[key] = g_keywords
+            if '{page}' in val:
+                data[key] = val.format(page=page)
+            elif '{keyword}' in val:
+                data[key] = val.format(keyword=keyword)
+            elif '{keywords}' in val:
+                data[key] = val.format(keywords=g_keywords)
         return data
 
 
