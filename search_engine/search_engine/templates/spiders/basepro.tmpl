@@ -1,40 +1,52 @@
+from typing import Any, Generator, Iterable, List, Optional, Union
+
 from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
 class $classname(ZhengFuBaseSpider):
-    name = '$name'
-    api = '$domain'
-    method = 'GET'
+    name: str = '$name'
+    api: str = '$domain'
+    method: str = 'default'
+    data: dict[str, Any] = {}
+    debug: bool = False
 
-    def edit_page(self, response: Response) -> int:
-        """
-        返回解析页数.
-        """
-        pass
 
-    def edit_data(self, data: dict, keyword: str, page: int) -> dict:
+    def edit_page(self, response: Selector) -> int:
         """
-        返回POST数据.
+        input: response
+        return: int
         """
-        pass
+        raise NotImplementedError()
 
-    def edit_items_box(self, response: Response) -> Selector:
+    def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
-        返回目录索引.
-        返回 Selector
+        从原始响应解析出包含items的容器
+        input: response
+        return: items_box
         """
-        pass
+        raise NotImplementedError()
 
-    def edit_items(self, items_box: Selector) -> Selector:
+    def edit_items(self, items_box: Any) -> Iterable[Any]:
         """
-        将目录索引整理为标准迭代器.
+        从items容器中解析出items的迭代容器
+        input: items_box
+        return: items
         """
         return items_box
 
-    def edit_item(self, item: Selector) -> dict:
+    def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
-        从迭代器中提取item.
+        将从items容器中迭代出的item解析出信息
+        input: items
+        return: item_dict
         """
-        return item
+        result = {
+            'title': ,
+            'url': ,
+            'source': ,
+            'content': ,
+        }
+        return result
+
