@@ -8,6 +8,7 @@ from scrapy import FormRequest, Request
 from scrapy.shell import inspect_response
 from scrapy.responsetypes import Response
 from termcolor import colored
+from twisted.python.threadable import isInIOThread
 
 from search_engine import g_keywords
 
@@ -200,7 +201,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             return None
         return item
 
-    def post_parse_item(self, item, keyword) -> dict[str, str]:
+    def post_parse_item(self, item: dict[str, Any], keyword: str) -> dict[str, str]:
         """钩子函数，默认将关键字存入数据."""
         if not self.batch:
             item["keyword"] = keyword
@@ -211,6 +212,12 @@ class ZhengFuBaseSpider(scrapy.Spider):
                 if keyword in item.get('title', '') or keyword in item.get('content', ''):
                     item['keyword'] = keyword
                     break
+
+        # 处理item中列表
+        for key, val in item.items():
+            if isinstance(val, list):
+                item[key] = ''.join(val)
+
         return item
 
     ###############

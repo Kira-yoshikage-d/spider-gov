@@ -13,14 +13,14 @@ class $classname(ZhengFuBaseSpider):
     debug: bool = False
 
 
-    def edit_page(self, response: Response) -> int:
+    def edit_page(self, response: Selector) -> int:
         """
         input: response
         return: int
         """
         raise NotImplementedError()
 
-    def edit_items_box(self, response: Response) -> Union[Any, Iterable[Any]]:
+    def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
         从原始响应解析出包含items的容器
         input: response
