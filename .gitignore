@@ -1,6 +1,9 @@
 **/*.csv
 **/*.json
 
+*.csv
+*.json
+
 /article_crawler/data/content
 /article_crawler/data/uniq
 /.idea
