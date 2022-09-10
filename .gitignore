@@ -3,6 +3,7 @@
 
 *.csv
 *.json
+*.xlsx
 
 /article_crawler/data/content
 /article_crawler/data/uniq
