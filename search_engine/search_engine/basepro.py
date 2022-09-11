@@ -171,11 +171,11 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def render_data_template(self, data: dict[str, str], keyword: str, page: Union[int, str]) -> dict[str, str]:
         for key, val in data.items():
-            if '{page}' in val:
+            if '{page}' in str(val):
                 data[key] = val.format(page=page)
-            elif '{keyword}' in val:
+            elif '{keyword}' in str(val):
                 data[key] = val.format(keyword=keyword)
-            elif '{keywords}' in val:
+            elif '{keywords}' in str(val):
                 data[key] = val.format(keywords=g_keywords)
         return data
 
@@ -192,9 +192,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
     def parse_item(self, item, keyword) -> Optional[dict[str, str]]:
         """解析item"""
         item = self.edit_item(item)
-        print(item)
         item = self.post_parse_item(item, keyword)
-        print(item)
         if not item["url"]:
             return None
         return item
@@ -215,6 +213,10 @@ class ZhengFuBaseSpider(scrapy.Spider):
         for key, val in item.items():
             if isinstance(val, list):
                 item[key] = ''.join(val)
+
+        for key, val in item.items():
+            if isinstance(val, str):
+                item[key] = val.strip()
 
         return item
 
