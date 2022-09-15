@@ -7,42 +7,37 @@ from scrapy import Selector
 
 class ShijiazhuangSpider(ZhengFuBaseSpider):
     name: str = 'Shijiazhuang'
+    token_url = 'https://www.sjz.gov.cn/so/s?qt={keyword}&siteCode=1301000003&tab=all&toolsStatus=1'
     api = 'https://api.so-gov.cn/s'
     method: str = 'POST'
-    data: dict[str, Any] = {}
     debug: bool = False
+    custom_settings: Optional[dict] = {
+        'DOWNLOADER_MIDDLEWARES': {
+            'search_engine.middlewares.WordTokenDownloaderMiddleware': 543,
+        },
+        'COOKIES_ENABLED': False,
+        'DOWNLOAD_DELAY': 1,
+    }
 
+    def edit_page(self, response):
+        # inspect_response(response, self)
+        raw_data = response.json()
+        total_items_num = raw_data["data"]["search"]["totalHits"]
+        total_page = int(total_items_num) // 20 + 1
+        return total_page
 
-    def edit_page(self, response: Selector) -> int:
-        """
-        input: response
-        return: int
-        """
-        raise NotImplementedError()
-
-    def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
-        """
-        从原始响应解析出包含items的容器
-        input: response
-        return: items_box
-        """
-        raise NotImplementedError()
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
+    def edit_items_box(self, response):
+        raw_data = response.json()
+        items_box = raw_data["data"]["search"]["searchs"]
         return items_box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
-        """
-        将从items容器中迭代出的item解析出信息
-        input: items
-        return: item_dict
-        """
         result = {
+            "title": item.get("title", ""),
+            "url": item.get("viewUrl", ""),
+            "date": item.get("docDate", ""),
+            "source": item.get("siteName", ""),
+            "type": item.get("displayDb", ""),
         }
         return result
 
