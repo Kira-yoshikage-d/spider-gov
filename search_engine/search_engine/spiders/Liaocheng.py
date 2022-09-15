@@ -5,12 +5,12 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class HengshuiSpider(ZhengFuBaseSpider):
-    name: str = 'Hengshui'
-    api: str = 'http://www.hengshui.gov.cn/jrobot/search.do?webid=1&pg=12&p={page}&tpl=&category=&q={keyword}&pos=&od=&date=&date='
+class LiaochengSpider(ZhengFuBaseSpider):
+    name: str = 'Liaocheng'
+    api: str = 'http://www.liaocheng.gov.cn/was5/web/search?page={page}&channelid=287273&searchword={keyword}&keyword={keyword}&perpage=10&outlinepage=10&andsen=&total=&orsen=&exclude=&searchscope=&timescope=&timescopecolumn=&orderby=-DOCRELTIME'
     method: str = 'GET'
     data: dict[str, Any] = {}
-    debug: bool = True
+    debug: bool = False
 
 
     def edit_page(self, response: Selector) -> int:
@@ -18,8 +18,8 @@ class HengshuiSpider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        page = response.css("#jsearch-info-box::attr(data-total)").get()
-        return int(page) // 12 + 1
+        items_num = response.css("div.xw_searchPage div.xw_seCondition p > span:nth-child(1)::text").get()
+        return int(items_num) // 10 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -27,7 +27,7 @@ class HengshuiSpider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        box = response.css("div#jsearch-result-items > div.jsearch-result-box")
+        box = response.css("div#xw_reLeftList > ul.xw_webSe > li")
         return box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
@@ -37,10 +37,10 @@ class HengshuiSpider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("div.jsearch-result-title > a::text").get(),
-            'url': item.css("div.jsearch-result-abs > div.jsearch-result-other-info > div.jsearch-result-url > a::text").get(),
+            'title': item.css("a > h2::text").get(),
+            'url': item.css("a::attr(href)").get(),
             'source': "无",
-            'date': item.css("span.jsearch-result-date::text").get(),
+            'date': item.css("a > p:nth-child(3) > span::text").get(),
         }
         return result
 

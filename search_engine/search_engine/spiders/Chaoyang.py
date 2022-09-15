@@ -21,13 +21,9 @@ class ChaoyangSpider(ZhengFuBaseSpider):
         'sswjlx': '1',
         'timefw': '1',
         'columnTypeId': '',
-        'searchKey': 'keywords'
+        'searchKey': '{keyword}',
+        'page': '{page}',
     }
-
-    def edit_data(self, data, keyword, page):
-        data['searchKey'] = keyword
-        data['page'] = str(page)
-        return data
 
     def edit_items_box(self, response):
         return response.css(".result-li")

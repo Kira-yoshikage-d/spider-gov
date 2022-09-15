@@ -92,7 +92,6 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def start_post_requests(self, page=1, callback=None, **kwargs) -> Generator[FormRequest, None, None]:
         """抛出 POST 方法对应的起始请求."""
-        self.logger.debug("[func]: start_post_requests")
         keywords = self.keywords
         url = self.api
         headers = self.headers
@@ -102,7 +101,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             data = self.build_data(keywords, page, **kwargs)
             req = FormRequest(
                 url=url,
-                meta={"keyword": keywords},
+                meta={"keyword": keywords, "formdata": data, "page": page},
                 headers=headers,
                 formdata=data,
                 callback=callback
@@ -113,7 +112,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
                 data = self.build_data(keyword, page, **kwargs)
                 req = FormRequest(
                     url=url,
-                    meta={"keyword": keyword},
+                    meta={"keyword": keyword, "formdata": data, "page": page},
                     headers=headers,
                     formdata=data,
                     callback=callback
