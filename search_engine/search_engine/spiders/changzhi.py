@@ -7,7 +7,7 @@ class ChangzhiSpider(ZhengFuBaseSpider):
     name = 'changzhi'
     api = 'https://www.changzhi.gov.cn/trs-search/trssearch/v2/searchAll.do?siteId=4&searchTag=all&allKeywords={keyword}&fullKeywords=&orKeywords=&notKeywords=&sort=&position=0&organization=&pageNum={page}&pageSize=10&zcYear=&isAlways=1&fileTag='
     method = 'GET'
-    debug = False
+    debug = False 
 
     def edit_page(self, response: Response) -> int:
         """
