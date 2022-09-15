@@ -1,14 +1,15 @@
 from typing import Any, Generator, Iterable, List, Optional, Union
+import json
 
 from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class $classname(ZhengFuBaseSpider):
-    name: str = '$name'
-    api: str = '$domain'
-    method: str = 'default'
+class QinhuangdaoSpider(ZhengFuBaseSpider):
+    name: str = 'Qinhuangdao'
+    api: str = 'http://www.qhd.gov.cn/front_searchall.do?state=&pn={page}&pageSize=10&query={keyword}'
+    method: str = 'GET'
     data: dict[str, Any] = {}
     debug: bool = False
 
@@ -18,7 +19,9 @@ class $classname(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        raise NotImplementedError()
+        data = response.json()
+        data = json.loads(data['news'])
+        return int(data['pages'])
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -26,15 +29,9 @@ class $classname(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        raise NotImplementedError()
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
+        data = response.json()
+        data = json.loads(data['news'])
+        return data['result']
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -43,10 +40,10 @@ class $classname(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': ,
-            'url': ,
-            'source': ,
-            'date': ,
+            'title': item['title'],
+            'date': item['inserttime'],
+            'source': item['come_from'],
+            'url': 'http://www.qhd.gov.cn/front_pcthi.do?uuid=' + item['uuid'],
         }
         return result
 

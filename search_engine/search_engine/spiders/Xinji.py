@@ -5,10 +5,10 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class $classname(ZhengFuBaseSpider):
-    name: str = '$name'
-    api: str = '$domain'
-    method: str = 'default'
+class XinjiSpider(ZhengFuBaseSpider):
+    name: str = 'Xinji'
+    api: str = 'https://www.xinji.gov.cn/search?q={keyword}&page={page}'
+    method: str = 'GET'
     data: dict[str, Any] = {}
     debug: bool = False
 
@@ -18,7 +18,8 @@ class $classname(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        raise NotImplementedError()
+        page = response.css("#pagenav > span::text").re(r"共 (\d+) 条")[0]
+        return int(page) // 10 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -26,15 +27,8 @@ class $classname(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        raise NotImplementedError()
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
+        box = response.css("#apple > li")
+        return box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -43,10 +37,10 @@ class $classname(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': ,
-            'url': ,
-            'source': ,
-            'date': ,
+            'title': item.css("h3.sr-title a::text").get(),
+            'url': 'https://www.xinji.gov.cn' + item.css("h3.sr-title a::attr(href)").get(),
+            'date': item.css("div.sr-footer > span:nth-child(1)::text").get(),
+            'source': '-'.join(item.css("div.sr-footer a::text").getall()),
         }
         return result
 

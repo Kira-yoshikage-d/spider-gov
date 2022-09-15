@@ -15,7 +15,6 @@ from search_engine import g_keywords
 class ZhengFuBaseSpider(scrapy.Spider):
     name: str = ''
     start_urls: List[str] = ['']
-    allowed_domains: List[str] = ['']
     # 关键字
     keywords: List[str] = g_keywords
     # API
@@ -93,7 +92,6 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def start_post_requests(self, page=1, callback=None, **kwargs) -> Generator[FormRequest, None, None]:
         """抛出 POST 方法对应的起始请求."""
-        self.logger.debug("[func]: start_post_requests")
         keywords = self.keywords
         url = self.api
         headers = self.headers
@@ -103,7 +101,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             data = self.build_data(keywords, page, **kwargs)
             req = FormRequest(
                 url=url,
-                meta={"keyword": keywords},
+                meta={"keyword": keywords, "formdata": data, "page": page},
                 headers=headers,
                 formdata=data,
                 callback=callback
@@ -114,7 +112,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
                 data = self.build_data(keyword, page, **kwargs)
                 req = FormRequest(
                     url=url,
-                    meta={"keyword": keyword},
+                    meta={"keyword": keyword, "formdata": data, "page": page},
                     headers=headers,
                     formdata=data,
                     callback=callback
@@ -172,12 +170,12 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def render_data_template(self, data: dict[str, str], keyword: str, page: Union[int, str]) -> dict[str, str]:
         for key, val in data.items():
-            if val == '{page}':
-                data[key] = str(page)
-            elif val == '{keyword}':
-                data[key] = str(keyword)
-            elif val == '{keywords}':
-                data[key] = g_keywords
+            if '{page}' in str(val):
+                data[key] = val.format(page=page)
+            elif '{keyword}' in str(val):
+                data[key] = val.format(keyword=keyword)
+            elif '{keywords}' in str(val):
+                data[key] = val.format(keywords=g_keywords)
         return data
 
 
@@ -193,14 +191,12 @@ class ZhengFuBaseSpider(scrapy.Spider):
     def parse_item(self, item, keyword) -> Optional[dict[str, str]]:
         """解析item"""
         item = self.edit_item(item)
-        print(item)
         item = self.post_parse_item(item, keyword)
-        print(item)
         if not item["url"]:
             return None
         return item
 
-    def post_parse_item(self, item, keyword) -> dict[str, str]:
+    def post_parse_item(self, item: dict[str, Any], keyword: str) -> dict[str, str]:
         """钩子函数，默认将关键字存入数据."""
         if not self.batch:
             item["keyword"] = keyword
@@ -211,6 +207,16 @@ class ZhengFuBaseSpider(scrapy.Spider):
                 if keyword in item.get('title', '') or keyword in item.get('content', ''):
                     item['keyword'] = keyword
                     break
+
+        # 处理item中列表
+        for key, val in item.items():
+            if isinstance(val, list):
+                item[key] = ''.join(val)
+
+        for key, val in item.items():
+            if isinstance(val, str):
+                item[key] = val.strip()
+
         return item
 
     ###############

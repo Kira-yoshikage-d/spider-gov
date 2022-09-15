@@ -5,9 +5,9 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class $classname(ZhengFuBaseSpider):
-    name: str = '$name'
-    api: str = '$domain'
+class PuyangSpider(ZhengFuBaseSpider):
+    name: str = 'Puyang'
+    api: str = 'http://www.puyang.gov.cn/zwxx/zwxx_search.asp?words={keyword}&bianhao=%C7%EB%CA%E4%C8%EB%CE%C4%BA%C5&nian=&wenzhong=0&token=1662895891&page={page}'
     method: str = 'default'
     data: dict[str, Any] = {}
     debug: bool = False
@@ -43,10 +43,6 @@ class $classname(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': ,
-            'url': ,
-            'source': ,
-            'date': ,
         }
         return result
 

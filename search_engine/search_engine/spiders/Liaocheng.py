@@ -5,10 +5,10 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class $classname(ZhengFuBaseSpider):
-    name: str = '$name'
-    api: str = '$domain'
-    method: str = 'default'
+class LiaochengSpider(ZhengFuBaseSpider):
+    name: str = 'Liaocheng'
+    api: str = 'http://www.liaocheng.gov.cn/was5/web/search?page={page}&channelid=287273&searchword={keyword}&keyword={keyword}&perpage=10&outlinepage=10&andsen=&total=&orsen=&exclude=&searchscope=&timescope=&timescopecolumn=&orderby=-DOCRELTIME'
+    method: str = 'GET'
     data: dict[str, Any] = {}
     debug: bool = False
 
@@ -18,7 +18,8 @@ class $classname(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        raise NotImplementedError()
+        items_num = response.css("div.xw_searchPage div.xw_seCondition p > span:nth-child(1)::text").get()
+        return int(items_num) // 10 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -26,15 +27,8 @@ class $classname(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        raise NotImplementedError()
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
+        box = response.css("div#xw_reLeftList > ul.xw_webSe > li")
+        return box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -43,10 +37,10 @@ class $classname(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': ,
-            'url': ,
-            'source': ,
-            'date': ,
+            'title': item.css("a > h2::text").get(),
+            'url': item.css("a::attr(href)").get(),
+            'source': "无",
+            'date': item.css("a > p:nth-child(3) > span::text").get(),
         }
         return result
 
