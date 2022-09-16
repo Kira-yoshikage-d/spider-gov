@@ -69,9 +69,7 @@ ITEM_PIPELINES = {
     'search_engine.pipelines.MongoDBPipeline': 300,
 }
 
-MONGODB_URL = 'mongodb://localhost:27017'
-MONGODB_DATABASE = 'scrapy_gov'
-MONGODB_COLLECTION = 'gov'
+from search_engine.db import *
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
