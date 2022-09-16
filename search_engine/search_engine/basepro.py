@@ -31,12 +31,16 @@ class ZhengFuBaseSpider(scrapy.Spider):
     data: dict[str, Any] = {}
     # 是否解析第一页
     parse_first: bool = True
+    # 起始页api
+    api_start: str = api
     # 起始页的索引 (某些情况下需要调整为 0 )
     start_page: int = 1
     # 启用关键词批量搜索
     batch: bool = False
     # debug
     debug: bool = False
+    # start_mode
+    start_mode = False
 
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """
@@ -62,21 +66,21 @@ class ZhengFuBaseSpider(scrapy.Spider):
         if self.batch:
             self.logger.debug("enable batch mode")
 
-        yield from self.start_general_requests(method=method, page=self.start_page, callback=self.parse_index)
+        yield from self.start_general_requests(method=method, page=self.start_page, callback=self.parse_index, start_mode=self.start_mode)
 
-    def start_general_requests(self, method, page, callback, **kwargs):
+    def start_general_requests(self, method, page, callback, start_mode: bool =False, **kwargs):
         if method == "GET":
             general_method = self.start_get_requests
         elif method == "POST":
             general_method = self.start_post_requests
         else:
             raise Exception("Invalid method!")
-        yield from general_method(page=page, callback=callback)
+        yield from general_method(page=page, callback=callback, start_mode=start_mode)
 
-    def start_get_requests(self, page=None, callback=None, meta=None, **kwargs) -> Generator[Request, None, None]:
+    def start_get_requests(self, page=None, callback=None, meta=None, start_mode=False, **kwargs) -> Generator[Request, None, None]:
         """抛出 GET 方法对应的起始请求."""
         keywords = self.keywords
-        api = self.api
+        api = self.api_start if start_mode else self.api
         headers = self.headers
         if self.batch:
             # GET 方法不提供批量搜索
@@ -90,10 +94,10 @@ class ZhengFuBaseSpider(scrapy.Spider):
                               callback=callback)
                 yield req
 
-    def start_post_requests(self, page=1, callback=None, **kwargs) -> Generator[FormRequest, None, None]:
+    def start_post_requests(self, page=1, callback=None, start_mode=False, **kwargs) -> Generator[FormRequest, None, None]:
         """抛出 POST 方法对应的起始请求."""
         keywords = self.keywords
-        url = self.api
+        url = self.api_start if start_mode else self.api
         headers = self.headers
         self.logger.debug("爬取 第{}页".format(page))
         if self.batch:
