@@ -1,15 +1,7 @@
-from collections.abc import Set
-from collections import defaultdict
-import re
-import time
 from typing import Dict, Optional, Union, Any
 
-import requests
-import scrapy
-from scrapy.responsetypes import Response
 from search_engine.basepro import ZhengFuBaseSpider
-from scrapy import Request
-from scrapy.shell import inspect_response
+
 
 class BeijingSpider(ZhengFuBaseSpider):
     """POST
@@ -22,6 +14,7 @@ class BeijingSpider(ZhengFuBaseSpider):
         'DOWNLOAD_DELAY': 1,
     }
     name = 'Beijing'
+    token_url = 'http://www.beijing.gov.cn/so/s?tab=all&siteCode=1100000088&qt={keyword}'
     api = 'http://www.beijing.gov.cn/so/ss/s'
     method = "POST"
     debug: bool = False
@@ -38,7 +31,6 @@ class BeijingSpider(ZhengFuBaseSpider):
         "keyPlace": "0",
         "fileType": "",
     }
-    parse_first = False
 
     def edit_page(self, response):
         # inspect_response(response, self)

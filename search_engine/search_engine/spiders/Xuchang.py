@@ -9,10 +9,16 @@ class XuchangSpider(ZhengFuBaseSpider):
     name: str = 'Xuchang'
     api: str = 'http://www.xuchang.gov.cn/inteligentsearch/rest/esinteligentsearch/getFullTextDataNew'
     method: str = 'POST'
+    json_mode = True
+    headers: dict[str, str] = {
+        "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+        "Content-Type": "application/json;charset=UTF-8",
+    }
     data: dict[str, Any] =  {
         "token":"",
-        "pn":"",
-        "rn":10,
+        "pn":"20",
+        "rn":"10",
         "sdt":"",
         "edt":"",
         "wd":"{keyword}",

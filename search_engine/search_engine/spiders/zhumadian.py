@@ -7,7 +7,15 @@ class ZhumadianSpider(ZhengFuBaseSpider):
     """TODO 搜索接口不同"""
     name = 'zhumadian'
     api = 'https://www.zhumadian.gov.cn/plus/seek/index.php?currpage={page}&pagesize=20&skey={keyword}'
+    api_start = 'https://www.zhumadian.gov.cn/plus/seek/index.php?skey={keyword}&texttype=1'
     method = 'GET'
+
+    custom_settings = {
+        "RETRY_HTTP_CODES": [500, 502, 503, 504, 522, 524, 408, 429, 301, 302],
+        "DOWNLOADER_MIDDLEWARES": {
+            'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware': None,
+        }
+    }
 
     def edit_page(self, response: Response) -> int:
         """

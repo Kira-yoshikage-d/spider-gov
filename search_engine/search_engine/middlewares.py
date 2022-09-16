@@ -121,8 +121,9 @@ class PubProperty:
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
     }
-    def __init__(self, keyword: str) -> None:
+    def __init__(self, keyword: str, token_url: str='') -> None:
         self._keyword = keyword
+        self.token_url = token_url
         self.reinit(keyword=keyword)
 
     def _init(self, *args) -> None:
@@ -180,7 +181,7 @@ class WordTokenDownloaderMiddleware:
         spider.logger.info(termcolor.colored('Spider opened: %s' % spider.name, 'red'))
         for keyword in g_keywords:
             sleep(1)
-            self.token_cache[keyword] = PubProperty(keyword=keyword)
+            self.token_cache[keyword] = PubProperty(keyword=keyword, token_url=spider.token_url)
 
     def process_request(self, request: FormRequest, spider: Spider):
         # 1. 提取关键词，formdata

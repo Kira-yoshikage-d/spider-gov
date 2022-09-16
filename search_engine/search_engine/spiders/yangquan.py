@@ -4,9 +4,15 @@ from scrapy import Selector
 
 
 class YangquanSpider(ZhengFuBaseSpider):
-    name = 'yangquan'
+    name = 'Yangquan'
     api = 'http://www.yq.gov.cn/search/yqsearch.jsp'
     method = 'POST'
+    debug = False
+    headers: dict[str, str] = {
+        "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+        "Referer": "http://www.yq.gov.cn/search/yqsearch.jsp"
+    }
     data = {
         "sword": "{keyword}",
         "newspage": "1",
@@ -26,8 +32,8 @@ class YangquanSpider(ZhengFuBaseSpider):
         """
         返回解析页数.
         """
-        item_num = int(response.css("li.tab-current > em::text").re("\((\d+)\)")[0])
-        return item_num // 15 + 1
+        page = response.css('div.sresult-flag-cntbox:not(.hide)   span.shanxi-gov-page-form::text').re('共(\d+)页')[0]
+        return int(page)
 
     def edit_data(self, data: dict, keyword: str, page: int) -> dict:
         """
@@ -42,16 +48,17 @@ class YangquanSpider(ZhengFuBaseSpider):
         返回目录索引.
         返回 Selector
         """
-        return response.css("div.search-result-cntbox > div.srt-container")
+        frame = response.css("div.sresult-flag-cntbox:not(.hide)")
+        return frame.css("div.search-result-cntbox > div.srt-container")
 
     def edit_item(self, item: Selector) -> dict:
         """
         从迭代器中提取item.
         """
         result = {
-            'title': ''.join(response.css("h3.srt-title::text").getall()),
-            'url': response.css("h3.srt-title > a::attr(href)").get(),
-            'source': response.css("div.rst-ft > span:nth-child(1)::text").get(),
-            'date': response.css("div.rst-ft > span:nth-child(3)::text").get(),
+            'title': item.css("h3.srt-title > a::text").getall(),
+            'url': item.css("h3.srt-title > a::attr(href)").get(),
+            'source': item.css("div.rst-ft > span:nth-child(1)::text").get(),
+            'date': item.css("div.rst-ft > span:nth-child(3)::text").get(),
         }
         return result
