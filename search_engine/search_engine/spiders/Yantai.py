@@ -12,7 +12,7 @@ class YantaiSpider(ZhengFuBaseSpider):
         "websiteid": "370600000000000",
         "q": "{keyword}",
         "p": "{page}",
-        "pg": "20",
+        "pg": "15",
         "cateid": "5",
         "pos": "",
         "pq": "",
@@ -23,11 +23,12 @@ class YantaiSpider(ZhengFuBaseSpider):
         "tpl": "82",
         "sortFields": ""
     }
-
-    def edit_data(self, data, keyword, page):
-        data["q"] = str(keyword)
-        data["p"] = str(page)
-        return data
+    headers: dict[str, str] = {
+        "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    debug = False
 
     def edit_items_box(self, response):
         raw_data = response.json()
@@ -40,11 +41,14 @@ class YantaiSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
+        data['title'] = item.css("div.jcse-news-title a::text").get()
+        data['source'] = item.css("div.jcse-news-title > span > a::text").get()
+        data['date'] = item.css("span.jcse-news-date::text").get()
         data['url'] = item.css("div.jcse-news-title a::attr(href)").get()
         return data
 
     def edit_page(self, response):
         raw_data = response.json()
         total_items_num = raw_data.get("total", 0)
-        total_page_num = int(total_items_num) // 20 + 1
+        total_page_num = int(total_items_num) // 15 + 1
         return total_page_num
