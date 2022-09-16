@@ -223,6 +223,9 @@ class ZhengFuBaseSpider(scrapy.Spider):
                     item['keyword'] = keyword
                     break
 
+        # 添加城市名
+        item['city'] = self.name
+
         # 处理item中列表
         for key, val in item.items():
             if isinstance(val, list):
