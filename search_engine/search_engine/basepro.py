@@ -5,6 +5,7 @@ from typing import Any, Generator, Iterable, List, Optional, Union
 
 import scrapy
 from scrapy import FormRequest, Request
+from search_engine.request import JsonRequest
 from scrapy.shell import inspect_response
 from scrapy.responsetypes import Response
 from termcolor import colored
@@ -41,6 +42,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
     debug: bool = False
     # start_mode
     start_mode = False
+    # json_mode
+    json_mode = False
 
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """
@@ -94,16 +97,22 @@ class ZhengFuBaseSpider(scrapy.Spider):
                               callback=callback)
                 yield req
 
-    def start_post_requests(self, page=1, callback=None, start_mode=False, **kwargs) -> Generator[FormRequest, None, None]:
+    def start_post_requests(self, page=1, callback=None, start_mode=False, **kwargs) -> Generator[Union[FormRequest, JsonRequest], None, None]:
         """抛出 POST 方法对应的起始请求."""
         keywords = self.keywords
         url = self.api_start if start_mode else self.api
         headers = self.headers
         self.logger.debug("爬取 第{}页".format(page))
+
+        if self.json_mode:
+            FormRequestCLS = JsonRequest
+        else:
+            FormRequestCLS = FormRequest
+
         if self.batch:
             keywords = g_keywords
             data = self.build_data(keywords, page, **kwargs)
-            req = FormRequest(
+            req = FormRequestCLS(
                 url=url,
                 meta={"keyword": keywords, "formdata": data, "page": page},
                 headers=headers,
@@ -114,7 +123,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         else:
             for keyword in keywords:
                 data = self.build_data(keyword, page, **kwargs)
-                req = FormRequest(
+                req = FormRequestCLS(
                     url=url,
                     meta={"keyword": keyword, "formdata": data, "page": page},
                     headers=headers,
@@ -169,6 +178,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def post_edit_data(self, data: dict[str, Any]) -> dict[str, str]:
         for key, val in data.items():
+            if val is None:
+                continue
             data[key] = str(val)
         return data
 
