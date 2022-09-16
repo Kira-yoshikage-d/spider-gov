@@ -6,8 +6,10 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from search_engine.scrapy_mongodb import MongoDBPipeline
 
 
 class search_enginePipeline:
     def process_item(self, item, spider):
         return item
+
