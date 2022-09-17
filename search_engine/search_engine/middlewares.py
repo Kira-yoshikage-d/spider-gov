@@ -187,8 +187,6 @@ class WordTokenDownloaderMiddleware:
         # 1. 提取关键词，formdata
         # 2. 构造新的formdata
         # 3. 抛出新的请求
-        if 'processed' in request.meta:
-            return None
         keyword = request.meta['keyword']
         page = request.meta['page']
         pub_property = self.token_cache[keyword]
@@ -199,8 +197,9 @@ class WordTokenDownloaderMiddleware:
             meta={'keyword': keyword, 'formdata': formdata, 'page': page, 'processed': True},
             headers=headers,
         )
-        spider.logger.info(str(s))
-        return s
+        request._body = s._body
+        request.headers = s.headers
+        return None
 
     def process_response(self, request: Request, response: Response, spider: Spider):
         # 1. 检查请求是否成功
