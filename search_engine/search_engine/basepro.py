@@ -5,6 +5,7 @@ from typing import Any, Generator, Iterable, List, Optional, Union
 
 import scrapy
 from scrapy import FormRequest, Request
+import termcolor
 from search_engine.request import JsonRequest
 from scrapy.shell import inspect_response
 from scrapy.responsetypes import Response
@@ -44,6 +45,10 @@ class ZhengFuBaseSpider(scrapy.Spider):
     start_mode = False
     # json_mode
     json_mode = False
+
+    # 进度
+    total_pages = 1 
+    current_page = 0
 
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """
@@ -134,6 +139,10 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def parse_index(self, response: Response):
         """解析当前页，以及抛出余下请求."""
+        self.current_page += 1
+        percentage = float(self.current_page)/float(self.total_pages)
+        self.logger.info(termcolor.colored(f"完成: {percentage}", "magenta"))
+
         parse_first = self.parse_first
         start_page = self.start_page
 
@@ -147,6 +156,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
         # 获取总页数
         total_page = self.edit_page(response)
+        self.total_pages += total_page
         self.logger.debug(
             colored("关键字[{}] 总页数: {}".format(response.meta.get('keyword'),
                                          total_page), "red"))

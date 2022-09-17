@@ -71,8 +71,6 @@ ITEM_PIPELINES = {
 
 from search_engine.db import *
 
-MONGODB_UNIQUE_KEY = 'url'
-
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
