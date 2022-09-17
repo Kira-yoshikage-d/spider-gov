@@ -198,7 +198,6 @@ class WordTokenDownloaderMiddleware:
             formdata=formdata,
             meta={'keyword': keyword, 'formdata': formdata, 'page': page, 'processed': True},
             headers=headers,
-            dont_filter=True
         )
         spider.logger.info(str(s))
         return s
