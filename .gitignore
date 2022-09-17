@@ -7,7 +7,7 @@
 
 db.py
 
-keywords.text
+keywords.txt
 
 /article_crawler/data/content
 /article_crawler/data/uniq

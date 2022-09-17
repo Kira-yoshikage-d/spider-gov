@@ -44,6 +44,8 @@ FEED_EXPORT_ENCODING = 'utf-8'
 #   'Accept-Language': 'en',
 #}
 
+SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
+
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
@@ -65,11 +67,14 @@ FEED_EXPORT_ENCODING = 'utf-8'
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-#    'search_engine.pipelines.search_enginePipeline': 300,
+    'search_engine.pipelines.search_enginePipeline': 200,
     'search_engine.pipelines.MongoDBPipeline': 300,
 }
 
 from search_engine.db import *
+
+MONGODB_SEPARATE_COLLECTIONS = True
+MONGODB_UNIQUE_KEY = ['url', 'title']
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

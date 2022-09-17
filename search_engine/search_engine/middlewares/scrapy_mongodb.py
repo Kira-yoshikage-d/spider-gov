@@ -8,8 +8,8 @@ import logging
 import six
 from pymongo import errors
 from pymongo.mongo_client import MongoClient
-#from pymongo.mongo_replica_set_client import MongoReplicaSetClient
 from pymongo.read_preferences import ReadPreference
+from pymongo.operations import IndexModel
 
 from scrapy.exporters import BaseItemExporter
 
@@ -51,10 +51,12 @@ class MongoDBPipeline(BaseItemExporter):
     # Duplicate key occurence count
     duplicate_key_count = 0
 
+
     def __init__(self, **kwargs):
         """Constructor."""
         super(MongoDBPipeline, self).__init__(**kwargs)
         self.logger = logging.getLogger('scrapy-mongodb-pipeline')
+        self.index_setted = False
 
     def load_spider(self, spider):
         self.crawler = spider.crawler
@@ -245,12 +247,14 @@ class MongoDBPipeline(BaseItemExporter):
             key = {}
 
             if isinstance(self.config['unique_key'], list):
-                for k in dict(self.config['unique_key']).keys():
+                for k in self.config['unique_key']:
                     key[k] = item[k]
             else:
                 key[self.config['unique_key']] = item[self.config['unique_key']]
 
-            collection.update_one(key, item, upsert=True)
+            diff = {'$addToSet': {k:item[k] for k in item if k not in self.config['unique_key']}}
+
+            collection.update_one(key, diff, upsert=True)
 
             self.logger.debug(u'Stored item(s) in MongoDB {0}/{1}'.format(
                 self.config['database'], collection_name))
@@ -259,19 +263,25 @@ class MongoDBPipeline(BaseItemExporter):
 
     def get_collection(self, name):
         if self.config['separate_collections']:
-            collection = self.collections.get(name)
-            collection_name = name
-
-            if not collection:
+            if name not in self.collections:
                 collection = self.database[name]
                 self.collections[name] = collection
+            collection = self.collections.get(name, None)
+            collection_name = name
         else:
             collection = self.collections.get('default')
             collection_name = self.config['collection']
 
+        assert collection is not None
+
         # Ensure unique index
-        if self.config['unique_key']:
-            collection.ensure_index(self.config['unique_key'], unique=True)
-            self.logger.info(u'Ensuring index for key {0}'.format(
-                self.config['unique_key']))
+        if not self.index_setted and self.config['unique_key']:
+            if isinstance(self.config['unique_key'], list):
+                collection.create_indexes(
+                    [IndexModel(k) for k in self.config['unique_key']]
+                )
+            else:
+                collection.create_index(self.config['unique_key'], unique=True)
+            self.logger.info(u'Ensuring index for key {0}'.format(self.config['unique_key']))
+            self.index_setted = True
         return (collection_name, collection)
