@@ -50,6 +50,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
     total_pages = 1 
     current_page = 0
 
+    token_url = ''
+
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """
         抛出初始请求
@@ -155,7 +157,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             sys.exit()
 
         # 获取总页数
-        total_page = self.edit_page(response)
+        total_page = min(self.edit_page(response), 500)
         self.total_pages += total_page
         self.logger.debug(
             colored("关键字[{}] 总页数: {}".format(response.meta.get('keyword'),
