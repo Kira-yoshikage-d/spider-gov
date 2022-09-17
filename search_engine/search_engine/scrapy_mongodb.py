@@ -250,7 +250,7 @@ class MongoDBPipeline(BaseItemExporter):
             else:
                 key[self.config['unique_key']] = item[self.config['unique_key']]
 
-            collection.update(key, item, upsert=True)
+            collection.update_one(key, item, upsert=True)
 
             self.logger.debug(u'Stored item(s) in MongoDB {0}/{1}'.format(
                 self.config['database'], collection_name))
