@@ -11,7 +11,7 @@ from scrapy.shell import inspect_response
 from scrapy.responsetypes import Response
 from termcolor import colored
 
-from search_engine import g_keywords
+from search_engine import g_keywords, g_keywords_dict
 
 
 class ZhengFuBaseSpider(scrapy.Spider):
@@ -51,6 +51,10 @@ class ZhengFuBaseSpider(scrapy.Spider):
     current_page = 0
 
     token_url = ''
+
+    def __init__(self, name=None, **kwargs):
+        super().__init__(name, **kwargs)
+        self.keywords = g_keywords_dict.get(self.name, g_keywords)
 
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """

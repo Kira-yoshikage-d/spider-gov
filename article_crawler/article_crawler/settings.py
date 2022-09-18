@@ -9,10 +9,16 @@
 
 BOT_NAME = 'article_crawler'
 
+COMMANDS_MODULE = 'article_crawler.commands'
+
 SPIDER_MODULES = ['article_crawler.spiders']
 NEWSPIDER_MODULE = 'article_crawler.spiders'
 TEMPLATES_DIR = 'article_crawler/templates'
 
+from article_crawler.db import *
+
+MONGODB_SEPARATE_COLLECTIONS = True
+MONGODB_UNIQUE_KEY = ['url']
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
@@ -60,12 +66,14 @@ DEFAULT_REQUEST_HEADERS = {
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
+SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'article_crawler.pipelines.ArticleCrawlerPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    #'article_crawler.pipelines.ArticleCrawlerPipeline': 300,
+    'article_crawler.middlewares.scrapy_mongodb.MongoDBPipeline': 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
