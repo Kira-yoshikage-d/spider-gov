@@ -37,6 +37,10 @@ class ZhongshanSpider(ZhengFuBaseSpider):
         return items_box
 
     def edit_item(self, item):
-        data = {}
-        data["url"] = item.get("url", None)
+        data = {
+            'url': item['url'],
+            'title': scrapy.Selector(text=item['title']).css('::text').getall(),
+            'date': item['pub_time'],
+            'source': item['source'],
+        }
         return data
