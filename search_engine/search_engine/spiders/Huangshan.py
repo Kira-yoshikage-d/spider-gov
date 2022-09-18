@@ -15,8 +15,12 @@ class HuangshanSpider(ZhengFuBaseSpider):
         return items_box
 
     def edit_item(self, item):
-        item_data = {}
-        item_data['url'] = item['link']
+        item_data = {
+            'url': item['link'],
+            'title': scrapy.Selector(text=item['title']).css("::text").getall(),
+            'source': item['resources'],
+            'date': item['createDate'],
+        }
         return item_data
 
     def edit_page(self, response):
