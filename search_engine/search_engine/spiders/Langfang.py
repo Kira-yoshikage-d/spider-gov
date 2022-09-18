@@ -5,9 +5,9 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class HengshuiSpider(ZhengFuBaseSpider):
-    name: str = 'Hengshui'
-    api: str = 'http://www.hengshui.gov.cn/jrobot/search.do?webid=1&pg=12&p={page}&tpl=&category=&q={keyword}&pos=&od=&date=&date='
+class LangfangSpider(ZhengFuBaseSpider):
+    name: str = 'Langfang'
+    api: str = 'http://www.lf.gov.cn/search.aspx?fieldOption=title&modelID=0&searchType=0&keyword={keyword}&page={page}'
     method: str = 'GET'
     data: dict[str, Any] = {}
     debug: bool = False
@@ -18,8 +18,8 @@ class HengshuiSpider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        page = response.css("#jsearch-info-box::attr(data-total)").get()
-        return int(page) // 12 + 1
+        total = response.css("#pe100_page_全站搜索按标题_普通式 > span::text").get()
+        return int(total)//200 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -27,8 +27,7 @@ class HengshuiSpider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        box = response.css("div#jsearch-result-items > div.jsearch-result-box")
-        return box
+        return response.css("#content > div.listContent > div.mainContent > ul > li")
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -37,10 +36,10 @@ class HengshuiSpider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("div.jsearch-result-title > a::text").getall(),
-            'url': item.css("div.jsearch-result-abs > div.jsearch-result-other-info > div.jsearch-result-url > a::text").get(),
-            'source': "无",
-            'date': item.css("span.jsearch-result-date::text").get(),
+            'title': item.css("a.tit::attr(title)").get(),
+            'url': 'http://www.lf.gov.cn' + item.css("a.tit::attr(href)").get(),
+            'source': item.css("a.node::text").get(),
+            'date': item.css("span.date::text").get(),
         }
         return result
 

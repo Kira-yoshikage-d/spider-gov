@@ -1,39 +1,40 @@
-from scrapy import Spider, Request
+from scrapy import Spider, Request, settings
 from scrapy.responsetypes import Response
 from collections import defaultdict
 from urllib.parse import urlparse
 import os
 import csv
 from termcolor import colored
+from pymongo import MongoClient
+from scrapy.utils.project import get_project_settings
+from article_crawler.extensions.start_requests import RequestGenerator
 
 
 class baseSpider(Spider):
     """article_crawler 的基础爬虫"""
     parser_hooks = defaultdict(list)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
+    }
 
     def __init__(self):
         super().__init__()
-        self.file_path = os.path.join('data', 'uniq', 'uniq_' + self.name + '.csv')
-        self.file_handler = open(self.file_path, 'rt')
         self.not_handled = []
         # TODO
         self.handled = []
 
     def start_requests(self):
-        field_names = ['url', 'keyword']
-        reader = csv.DictReader(self.file_handler, fieldnames=field_names)
-        for item in reader:
-            url = item['url']
-            keyword = item['keyword']
-            yield Request(url=url, meta={'url': url, 'keyword': keyword}, callback=self.main_parser)
+        rg = RequestGenerator(self.name)
+        for item in rg.fetch_url():
+            request = Request(url=item['url'], headers=self.headers, callback=self.main_parser, meta={'url': item['url']})
+            yield request
 
     def main_parser(self, response: Response):
         url = response.meta['url']
-        keyword = response.meta['keyword']
         for parser_func in self.parser_hooks[self.name]:
             try:
                 result = parser_func(self, response)
-                result = self.post_process(result, url=url, keyword=keyword)
+                result = self.post_process(result, url=url)
             except Exception as e:
                 self.logger.debug(colored("解析函数 {} : 出错: {}".format(parser_func.__name__, str(e)), "red"))
                 result = None
@@ -46,12 +47,11 @@ class baseSpider(Spider):
                 self.logger.debug(colored("解析函数 {} : 解析失败: {}".format(parser_func.__name__, result), "yellow"))
 
         self.logger.debug(colored("没有对应的解析函数.", "red"))
-        self.not_handled.append({'url': url, 'keyword': keyword})
         return None
 
     def result_pass(self, result):
-        if all([col in result.keys() for col in ['content', 'title', 'date']]):
-            return all([result[col] for col in ['content', 'title', 'date']])
+        if all([col in result.keys() for col in ['content']]):
+            return all([result[col] for col in ['content']])
         return False
 
     def post_process(self, result, **kwargs):
@@ -71,33 +71,4 @@ class baseSpider(Spider):
             parser_func.__str__ = lambda self: url_example
             return parser_func
         return decorator
-
-    @staticmethod
-    def close(spider, reason):
-        spider.file_handler.close()
-        spider.not_handled = sorted(spider.not_handled, key=lambda x: x['url'])
-        spider.save_notHandled()
-        spider.process_handled()
-
-    def save_notHandled(self):
-        with open(self.file_path, mode="wt") as csv_file:
-            field_name = ['url', 'keyword']
-            csv_writer = csv.DictWriter(csv_file, fieldnames=field_name)
-            # csv_writer.writeheader()
-            for item in self.not_handled:
-                csv_writer.writerow(item)
-
-    def process_handled(self):
-        # 默认只分析主域名
-        handled = [{'domain': urlparse(item['url']), 'parser': item['parser'].__name__}
-                   for item in self.handled]
-        # 去重
-        handled = list(set(handled))
-        # 排序
-        handled = sorted(handled, key=lambda x: x['url'])
-        summary = defaultdict(list)
-        for item in handled:
-            summary[item['parser']].append(item['domain'])
-        pass
-        # TODO
 
