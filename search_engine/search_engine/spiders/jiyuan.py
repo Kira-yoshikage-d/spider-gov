@@ -4,7 +4,7 @@ from scrapy import Selector
 
 
 class JiyuanSpider(ZhengFuBaseSpider):
-    name = 'jiyuan'
+    name = '济源'
     api = 'http://sousuo.www.jiyuan.gov.cn/igs/front/search.jhtml?code=971c944454cd42b8b0070c74dbb8cbac&pageNumber={page}&pageSize=10&queryAll=true&searchWord={keyword}&siteId=9'
     method = 'GET'
 

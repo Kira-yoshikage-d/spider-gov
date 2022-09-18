@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class PuyangSpider(ZhengFuBaseSpider):
-    name: str = 'Puyang'
+    name: str = '濮阳'
     api: str = 'http://www.puyang.gov.cn/zwxx/zwxx_search.asp?words={keyword}&bianhao=%C7%EB%CA%E4%C8%EB%CE%C4%BA%C5&nian=&wenzhong=0&token=1662895891&page={page}'
     method: str = 'default'
     data: dict[str, Any] = {}

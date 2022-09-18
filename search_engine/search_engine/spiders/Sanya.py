@@ -3,7 +3,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class SanyaSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Sanya'
+    name = '三亚'
     method = "GET"
     api = "http://search.sanya.gov.cn/s?searchWord={keyword}&column=%E5%85%A8%E7%AB%99&pageSize=10&pageNum={page}" \
           "&siteCode=4602000035&sonSiteCode=&checkHandle=1&searchSource=0&govWorkBean=%7B%7D&areaSearchFlag=-1" \

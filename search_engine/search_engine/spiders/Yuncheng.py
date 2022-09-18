@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class YunchengSpider(ZhengFuBaseSpider):
-    name: str = 'Yuncheng'
+    name: str = '运城'
     api: str = 'https://www.yuncheng.gov.cn/search2/api/select'
     method: str = 'POST'
     allowed_domains: List[str] = ['www.yuncheng.gov.cn']

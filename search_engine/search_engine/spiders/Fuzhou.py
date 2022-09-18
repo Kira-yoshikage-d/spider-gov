@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class FuzhouSpider(ZhengFuBaseSpider):
     """TODO 麻烦"""
-    name = 'Fuzhou'
+    name = '抚州'
     allowed_domains = ['jxfz.gov.cn']
     api = "http://www.jxfz.gov.cn/jrobot/search.do?webid=1&pg=12&p={page}&tpl=&category=&q={keyword}&pos=title%2Ccontent&od=&date=&date="
     cookie = "user_sid=cb7953272da44121b467c32a57489d20; JSESSIONID=8F0CA2F216CEFBEE69FE93BE8C7B4C54; zh_choose_1=s"

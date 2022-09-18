@@ -3,7 +3,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class LiuzhouSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Liuzhou'
+    name = '柳州'
     method = "GET"
     api = "http://www.liuzhou.gov.cn/search/search?page={page}&channelid=222295&searchword={keyword}&keyword={" \
           "keyword}&was_custom_expr=%28{keyword}%28&perpage=10&outlinepage=10&searchscope=&timescope=&timescopecolumn" \

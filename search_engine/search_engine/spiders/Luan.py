@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class LuanSpider(ZhengFuBaseSpider):
     """TODO FIXME"""
-    name = 'Luan'
+    name = '六安'
     method = "GET"
     api = "https://www.luan.gov.cn/site/search/6789941?platformCode=&isAllSite=true&siteId=&columnId=&columnIds" \
           "=&typeCode=public_content&beginDate=&endDate=&fromCode=&keywords={keyword}&oldKeywords=&subkeywords" \

@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class WuzhongSpider(ZhengFuBaseSpider):
     """反爬"""
-    name = 'Wuzhong'
+    name = '吴中'
     api = "http://wuzhong.gov.cn/irs/front/search"
     method = "POST"
     data = {

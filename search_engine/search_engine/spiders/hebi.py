@@ -4,7 +4,7 @@ from scrapy import Selector
 
 
 class HebiSpider(ZhengFuBaseSpider):
-    name = 'hebi'
+    name = '鹤壁'
     api = 'https://www.hebi.gov.cn/api-gateway/jpaas-jsearch-web-server/interface/search/info?websiteid=410600000000&q={keyword}&pg=&cateid=071f5fdb0eeb4262b2b0faf48c0e62d0&serviceId=e3ef28ec652b47ce8f5b65a4f701066e&p={page}'
     method = 'GET'
 

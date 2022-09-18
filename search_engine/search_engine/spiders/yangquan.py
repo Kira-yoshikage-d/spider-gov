@@ -4,7 +4,7 @@ from scrapy import Selector
 
 
 class YangquanSpider(ZhengFuBaseSpider):
-    name = 'Yangquan'
+    name = '阳泉'
     api = 'http://www.yq.gov.cn/search/yqsearch.jsp'
     method = 'POST'
     debug = False

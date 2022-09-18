@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class ChaoyangSpider(ZhengFuBaseSpider):
     """TODO SCRAPY"""
-    name = 'Chaoyang'
+    name = '朝阳'
     allowed_domains = ['chaoyang.gov.cn']
     start_urls = ['http://chaoyang.gov.cn/']
 

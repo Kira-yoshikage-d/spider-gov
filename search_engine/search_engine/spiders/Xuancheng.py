@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class XuanchengSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Xuancheng'
+    name = '宣城'
     api = "http://search.xuancheng.gov.cn/searchData?keyword={keyword}&siteId=1&field=all&page={page}"
     method = "GET"
 

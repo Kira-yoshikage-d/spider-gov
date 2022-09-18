@@ -6,7 +6,7 @@ from scrapy.responsetypes import Response
 class AnkangSpider(ZhengFuBaseSpider):
     """DONE"""
 
-    name = 'Ankang'
+    name = '安康'
     api = "https://so.ankang.gov.cn/s?t=0&s=0&sid=0&n=&q={keyword}&i=7&ctype=7&ft=0&date=&day=&p={page}"
     method = "GET"
 

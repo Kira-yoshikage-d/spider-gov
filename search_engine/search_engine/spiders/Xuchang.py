@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class XuchangSpider(ZhengFuBaseSpider):
-    name: str = 'Xuchang'
+    name: str = '许昌'
     api: str = 'http://www.xuchang.gov.cn/inteligentsearch/rest/esinteligentsearch/getFullTextDataNew'
     method: str = 'POST'
     json_mode = True

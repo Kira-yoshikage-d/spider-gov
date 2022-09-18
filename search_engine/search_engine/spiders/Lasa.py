@@ -3,7 +3,7 @@ from scrapy.responsetypes import Response
 
 class LasaSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Lasa'
+    name = '拉萨'
     method = "GET"
     api = "http://www.lasa.gov.cn/search4/s?searchWord={keyword}&column=%E6%9C%AC%E7%AB%99&pageSize=10" \
           "&pageNum={page}&siteCode=5401000001&sonSiteCode=&checkHandle=1&searchSource=0&govWorkBean=%7B%7D&areaSearchFlag" \

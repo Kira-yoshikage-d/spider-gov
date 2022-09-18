@@ -7,7 +7,7 @@ from scrapy import Selector
 
 
 class QinhuangdaoSpider(ZhengFuBaseSpider):
-    name: str = 'Qinhuangdao'
+    name: str = '秦皇岛'
     api: str = 'http://www.qhd.gov.cn/front_searchall.do?state=&pn={page}&pageSize=10&query={keyword}'
     method: str = 'GET'
     data: dict[str, Any] = {}

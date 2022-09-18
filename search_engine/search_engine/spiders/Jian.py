@@ -3,7 +3,7 @@ from scrapy.responsetypes import Response
 
 class JianSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Jian'
+    name = '吉安'
     method = "GET"
     api = "https://www.jian.gov.cn/index.php?c=api&m=essearchlist&inputorder=1&keyword={keyword}&messagetype=&siteid=&size=20&time=all&page={page}"
 

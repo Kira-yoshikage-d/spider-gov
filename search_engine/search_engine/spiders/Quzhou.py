@@ -6,7 +6,7 @@ from scrapy.selector import Selector
 
 class QuzhouSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Quzhou'
+    name = '衢州'
     allowed_domains = ['qz.gov.cn', 'zj.gov.cn']
     start_urls = ['http://http://www.qz.gov.cn//']
     api = "https://search.zj.gov.cn/jrobotfront/interfaces/cateSearch.do"

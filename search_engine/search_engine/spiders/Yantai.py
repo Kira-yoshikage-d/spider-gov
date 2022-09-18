@@ -5,7 +5,7 @@ from scrapy.selector import Selector
 
 class YantaiSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Yantai'
+    name = '烟台'
     api = "http://www.yantai.gov.cn/jsearchfront/interfaces/cateSearch.do"
     method = "POST"
     data = {

@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class HezeSpider(ZhengFuBaseSpider):
-    name: str = 'Heze'
+    name: str = '菏泽'
     api: str = 'http://www.heze.gov.cn/jsearchfront/interfaces/cateSearch.do'
     method: str = 'POST'
     data: dict[str, Any] = {

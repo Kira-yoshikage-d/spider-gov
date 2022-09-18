@@ -13,7 +13,7 @@ class BeijingSpider(ZhengFuBaseSpider):
         'COOKIES_ENABLED': False,
         'DOWNLOAD_DELAY': 1,
     }
-    name = 'Beijing'
+    name = '北京'
     token_url = 'http://www.beijing.gov.cn/so/s?tab=all&siteCode=1100000088&qt={keyword}'
     api = 'http://www.beijing.gov.cn/so/ss/s'
     method = "POST"

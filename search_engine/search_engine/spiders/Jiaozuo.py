@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class JiaozuoSpider(ZhengFuBaseSpider):
-    name: str = 'Jiaozuo'
+    name: str = '焦作'
     api: str = 'www.jiaozuo.gov.cn'
     method: str = 'default'
     data: dict[str, Any] = {}

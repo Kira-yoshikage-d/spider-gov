@@ -5,7 +5,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class WeifangSpider(ZhengFuBaseSpider):
     """TODO 看上去有点麻烦"""
-    name = 'Weifang'
+    name = '潍坊'
     api = "http://search.shandong.gov.cn/search"
     method = "POST"
     data = {

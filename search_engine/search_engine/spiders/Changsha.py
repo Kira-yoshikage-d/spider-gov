@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class ChangshaSpider(ZhengFuBaseSpider):
     """DONE"""
-    name = 'Changsha'
+    name = '长沙'
     allowed_domains = ['changsha.gov.cn', 'hunan.gov.cn']
     start_urls = ['http://http://www.changsha.gov.cn//']
     api = "http://searching.hunan.gov.cn/hunan/971101000/news?q={keyword}&searchfields=&sm=&columnCN=&iszq=&aggr_iszq=&p={page}&timetype="
