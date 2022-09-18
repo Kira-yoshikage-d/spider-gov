@@ -13,9 +13,6 @@ from article_crawler.extensions.start_requests import RequestGenerator
 class baseSpider(Spider):
     """article_crawler 的基础爬虫"""
     parser_hooks = defaultdict(list)
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36',
-    }
 
     def __init__(self):
         super().__init__()
@@ -26,7 +23,7 @@ class baseSpider(Spider):
     def start_requests(self):
         rg = RequestGenerator(self.name)
         for item in rg.fetch_url():
-            request = Request(url=item['url'], headers=self.headers, callback=self.main_parser, meta={'url': item['url']})
+            request = Request(url=item['url'], callback=self.main_parser, meta={'url': item['url']})
             yield request
 
     def main_parser(self, response: Response):

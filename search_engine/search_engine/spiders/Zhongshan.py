@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class ZhongshanSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Zhongshan'
+    name = '中山'
     allowed_domains = ['zs.gov.cn', 'gd.gov.cn']
     start_urls = ['http://http://www.zs.gov.cn//']
     api = "http://search.gd.gov.cn/api/search/all"

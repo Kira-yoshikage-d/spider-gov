@@ -5,7 +5,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class YuxiSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Yuxi'
+    name = '玉溪'
     api = "http://www.yuxi.gov.cn/yxgovfront/search_{page}.jspx?q={keyword}&_s_=1&rangeBy=title&orderBy=time&dir=desc"
     method = "GET"
 

@@ -4,7 +4,7 @@ from scrapy import Selector
 
 
 class DongyingSpider(ZhengFuBaseSpider):
-    name = 'Dongying'
+    name = '东营'
     method = 'POST'
     allowed_domains = ['dongying.gov.cn']
     start_urls = ['http://www.dongying.gov.cn']

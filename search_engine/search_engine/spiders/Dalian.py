@@ -5,7 +5,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 class DalianSpider(ZhengFuBaseSpider):
     """AJAX
     TODO crawl"""
-    name = 'Dalian'
+    name = '大连'
     allowed_domains = ['dl.gov.cn']
     start_urls = ['http://https://www.dl.gov.cn//']
     api = "https://www.dl.gov.cn/dhc/searchJs/retrieval?question={keyword}&pageNum={page}"

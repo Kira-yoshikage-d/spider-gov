@@ -5,7 +5,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class HefeiSpider(ZhengFuBaseSpider):
     """未知错误"""
-    name = 'Hefei'
+    name = '合肥'
     start_urls = ['http://http://www.hefei.gov.cn//']
     method = "GET"
     api = "https://www.hefei.gov.cn/site/search/6784331?platformCode=&fuzzySearch=false&isAllSite=true&siteId=&columnId=&columnIds=&typeCode=all&beginDate=&endDate=&fromCode=title&keywords={keyword}&oldKeywords=&subkeywords=&filterKeyWords=&excColumns=&dateKey=&datecode=&sort=intelligent&type=&tableColumnId=&indexNum=&fileNum=&flag=false&pageIndex={page}&pageSize=10"

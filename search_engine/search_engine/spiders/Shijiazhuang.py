@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class ShijiazhuangSpider(ZhengFuBaseSpider):
-    name: str = 'Shijiazhuang'
+    name: str = '石家庄'
     token_url = 'https://www.sjz.gov.cn/so/s?qt={keyword}&siteCode=1301000003&tab=all&toolsStatus=1'
     api = 'https://api.so-gov.cn/s'
     method: str = 'POST'

@@ -6,7 +6,7 @@ from scrapy.shell import inspect_response
 
 class ChangzhouSpider(ZhengFuBaseSpider):
     """DONE"""
-    name = 'Changzhou'
+    name = '常州'
     allowed_domains = ['changzhou.gov.cn']
     api = "http://search.changzhou.gov.cn/index.php?c=index&a=search&keyword={keyword}&referer=&range=2&edit=0&lanmu=0&sitename=all&sort=3&time=0&page={page}&contype=0"
 

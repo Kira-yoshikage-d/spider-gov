@@ -4,7 +4,7 @@ from scrapy import Selector
 
 
 class ZhengzhouSpider(ZhengFuBaseSpider):
-    name = 'zhengzhou'
+    name = '郑州'
     api = 'http://www.zhengzhou.gov.cn/search_{page}.jspx?q={keyword}&result_type=2&source=&place=&cid=&mid=&orderby=1'
     method = 'GET'
 

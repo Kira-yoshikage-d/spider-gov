@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class YinchuanSpider(ZhengFuBaseSpider):
     """反爬, 跳过"""
-    name = 'Yinchuan'
+    name = '银川'
     api = "http://www.yinchuan.gov.cn/was5/web/outlinecontent"
     method = "POST"
     data = {

@@ -5,7 +5,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class ChengduSpider(ZhengFuBaseSpider):
     """TODO Cookie 反扒"""
-    name = 'Chengdu'
+    name = '成都'
     allowed_domains = ['http://www.chengdu.gov.cn/']
     start_urls = ['http://http://www.chengdu.gov.cn//']
     method = 'GET'

@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class HengshuiSpider(ZhengFuBaseSpider):
-    name: str = 'Hengshui'
+    name: str = '衡水'
     api: str = 'http://www.hengshui.gov.cn/jrobot/search.do?webid=1&pg=12&p={page}&tpl=&category=&q={keyword}&pos=&od=&date=&date='
     method: str = 'GET'
     data: dict[str, Any] = {}

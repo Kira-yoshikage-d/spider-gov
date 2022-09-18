@@ -3,7 +3,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class WuhaiSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Wuhai'
+    name = '乌海'
     api = "http://www.wuhai.gov.cn/search/pcRender?pageId=63493493b61047b8be9bc396fa236e60"
     method = "POST"
     data = {

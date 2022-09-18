@@ -6,7 +6,7 @@ from scrapy import Selector
 
 
 class XinjiSpider(ZhengFuBaseSpider):
-    name: str = 'Xinji'
+    name: str = '辛集'
     api: str = 'https://www.xinji.gov.cn/search?q={keyword}&page={page}'
     method: str = 'GET'
     data: dict[str, Any] = {}

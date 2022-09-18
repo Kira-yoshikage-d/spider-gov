@@ -5,7 +5,7 @@ from scrapy import Selector
 
 class ZhumadianSpider(ZhengFuBaseSpider):
     """TODO 搜索接口不同"""
-    name = 'zhumadian'
+    name = '驻马店'
     api = 'https://www.zhumadian.gov.cn/plus/seek/index.php?currpage={page}&pagesize=20&skey={keyword}'
     api_start = 'https://www.zhumadian.gov.cn/plus/seek/index.php?skey={keyword}&texttype=1'
     method = 'GET'

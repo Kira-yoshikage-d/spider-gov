@@ -4,7 +4,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 class SanmingSpider(ZhengFuBaseSpider):
     """TODO crawl"""
-    name = 'Sanming'
+    name = '三明'
     allowed_domains = ['sm.gov.cn']
     api = "http://www.sm.gov.cn/smartSearch/interface/resource/list.do"
     method = "POST"

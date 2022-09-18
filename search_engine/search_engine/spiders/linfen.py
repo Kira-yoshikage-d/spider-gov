@@ -5,8 +5,8 @@ from search_engine import g_keywords
 
 
 class LinfenSpider(ZhengFuBaseSpider):
-    debug = True
-    name = 'linfen'
+    debug = False 
+    name = '临汾'
     api = 'http://www.linfen.gov.cn/irs/front/search'
     method = "POST"
     headers = ZhengFuBaseSpider.headers

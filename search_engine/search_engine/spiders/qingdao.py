@@ -5,7 +5,7 @@ from scrapy import Selector
 
 class QingdaoSpider(ZhengFuBaseSpider):
     """TODO 比较复杂"""
-    name = 'qingdao'
+    name = '青岛'
     api = 'www.qingdao.gov.cn'
     method = 'GET'
 

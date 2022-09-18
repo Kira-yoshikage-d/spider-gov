@@ -3,7 +3,7 @@ from search_engine.basepro import ZhengFuBaseSpider
 
 
 class HuaibeiSpider(ZhengFuBaseSpider):
-    name = 'Huaibei'
+    name = '淮北'
     allowed_domains = ['www.huaibei.gov.cn']
     start_urls = ['http://http://www.huaibei.gov.cn//']
     api = "http://www.huaibei.gov.cn/site/tpl/3361?isAllSite=true&platformCode=&siteId=&columnId=&columnIds=&typeCode=articleNews,pictureNews,videoNews,policyDoc,explainDoc&beginDate=&endDate=&fromCode=&keywords={keyword}&excColumns=&datecode=&sort=intelligent&type=&tableColumnId=&subkeywords={keyword}&orderType=0&indexNum=&fileNum=&pid=&language=&flag=false&searchType=&searchTplId=&fuzzySearch=true&internalCall=&catIds=&colloquial=true&pageIndex={page}&pageSize=10"
