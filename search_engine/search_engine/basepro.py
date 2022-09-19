@@ -52,6 +52,8 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     token_url = ''
 
+    crawler_process = None
+
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
         self.keywords = g_keywords_dict.get(self.name, g_keywords)
@@ -158,7 +160,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         if self.debug:
             self.debug = False
             inspect_response(response, self)
-            sys.exit()
+            self.crawler_process.stop()
 
         # 获取总页数
         total_page = min(self.edit_page(response), 500)

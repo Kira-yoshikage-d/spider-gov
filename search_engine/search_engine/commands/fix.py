@@ -23,6 +23,7 @@ class Command(ScrapyCommand):
 
         spidercls = SpiderLoader.from_settings(project.get_project_settings()).load(spider_name)
         spidercls.debug = debug
+        spidercls.crawler_process = self.crawler_process
 
         self.crawler_process.crawl(spidercls)
         self.crawler_process.start()
