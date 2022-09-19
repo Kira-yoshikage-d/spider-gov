@@ -24,6 +24,11 @@ class ChenzhouSpider(ZhengFuBaseSpider):
         return items
 
     def edit_item(self, item):
-        data = {}
-        data["url"] = item.css("div.title > a::attr(href)").get()
+        data = {
+            "url": item.css("div.title > a::attr(href)").get(),
+            "title": item.css("div.title > a::attr(title)").get(),
+            "type": item.css("span.com-title-name::text").get(),
+            "source": item.css("span.source-name::text").get(),
+            "date": item.css("span.source-time::text").getall(),
+        }
         return data

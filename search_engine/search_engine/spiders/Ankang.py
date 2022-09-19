@@ -24,8 +24,10 @@ class AnkangSpider(ZhengFuBaseSpider):
         return items_box
 
     def edit_item(self, item: Selector):
-        try:
-            url = item.css("em:nth-child(4)::text").re(r'链接：(.*)$')[0]
-        except Exception:
-            url = ""
-        return {"url": url}
+        return {
+            'url': item.css("h2 > a::attr(href)").get(),
+            'title': item.css("h2 > a::attr(title)").get(),
+            'source': item.css("em:nth-child(3)::text").get(),
+            'date': item.css("em:nth-child(4)::text").get(),
+            'type': item.css("h2 > span::text").get(),
+        }

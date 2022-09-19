@@ -52,6 +52,8 @@ SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
 #    'search_engine.middlewares.search_engineSpiderMiddleware': 543,
 #}
 
+COMMANDS_MODULE = 'search_engine.commands'
+
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {

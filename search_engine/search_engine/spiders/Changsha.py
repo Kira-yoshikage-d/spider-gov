@@ -28,6 +28,8 @@ class ChangshaSpider(ZhengFuBaseSpider):
     def edit_item(self, item):
         data = {}
         data["title"] = item.css("div.title > a::text").get()
-        data["date"] = item.css("span.source-time::text").get()
         data["url"] = item.css("div.title > a::attr(href)").get()
+        data["date"] = item.css("span.source-time::text").get()
+        data["source"] = item.css("span.source-name::text").get()
+        data["type"] = item.css("span.com-title-name::text").get()
         return data

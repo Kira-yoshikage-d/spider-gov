@@ -25,11 +25,16 @@ class ChangzhouSpider(ZhengFuBaseSpider):
         for _ in range(rec_deep - 1):
             items.append(self.diff(items_rec[_], items_rec[_ + 1]))
         items.append(items_rec[-1])
+        print(items)
         return items
 
     def edit_item(self, item):
         item_data = {}
         item_data['url'] = item.css("div.dat > a::text").get()
+        item_data['source'] = item.css("div.dat::text").re(r'(.*?) - (.*?) - ')[1]
+        item_data['date'] = item.css("div.dat::text").re(r'(.*?) - (.*?) - ')[0]
+        item_data['title'] = item.css("div.tit > a::text").get()
+        item_data['type'] = item.css("div.tit > span::text").get()
         return item_data
 
     def edit_page(self, response):

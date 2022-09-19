@@ -26,6 +26,13 @@ class DalianSpider(ZhengFuBaseSpider):
             yield item
 
     def edit_item(self, item):
-        data = {}
+        data = {
+            'url': item['xqurl'],
+            'title': scrapy.Selector(text=item['xqtitle']).css("::text").getall(),
+            'date': item['xqpudate'],
+            'source': item['lmname'],
+            'type': item['sjfl'],
+            'content': scrapy.Selector(text=item['xqcontent']).css("::text").getall(),
+        }
         data['url'] = item['xqurl']
         return data
