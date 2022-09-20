@@ -18,3 +18,10 @@ class A郴州Spider(baseSpider):
         }
         return result
 
+    @baseSpider.parser('郴州', 'www.czs.gov.cn')
+    def parser_3(self, response, **kwargs):
+        result = {
+            'content': response.css("#zoom  ::text").getall()
+        }
+        return result
+
