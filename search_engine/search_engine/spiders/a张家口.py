@@ -20,9 +20,8 @@ class A张家口Spider(ZhengFuBaseSpider):
         return: int
         """
         data = response.json()
-        info_class = data['data']['infoClass']
-        total = sum([int(c['pcout']) for c in info_class])
-        return int(total) // 20 + 1
+        total = data['data']['infos']['totalPages']
+        return int(total)
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
