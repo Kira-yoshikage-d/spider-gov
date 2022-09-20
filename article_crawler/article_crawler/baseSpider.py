@@ -8,6 +8,8 @@ from termcolor import colored
 from pymongo import MongoClient
 from scrapy.utils.project import get_project_settings
 from article_crawler.extensions.start_requests import RequestGenerator
+from scrapy.mail import MailSender
+from scrapy.utils import project
 
 
 class baseSpider(Spider):
@@ -19,6 +21,7 @@ class baseSpider(Spider):
         self.not_handled = []
         # TODO
         self.handled = []
+        self.mail = MailSender.from_settings(settings=project.get_project_settings())
 
     def start_requests(self):
         rg = RequestGenerator(self.name)
@@ -60,6 +63,12 @@ class baseSpider(Spider):
         for key, val in kwargs.items():
             result[key] = val
         return result
+
+    def closed(self, reason):
+        subject = 'scrapy report'
+        body = """
+        article_crawler 蜘蛛 {0} 完成运行, 原因{1}.""".format(self.name, reason)
+        return self.mail.send(to=["1070642565@qq.com"], subject=subject, body=body)
 
     @classmethod
     def parser(cls, spider_name, url_example):

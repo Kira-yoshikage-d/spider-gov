@@ -1,4 +1,5 @@
 import abc
+from re import sub
 import sys
 import copy
 from typing import Any, Generator, Iterable, List, Optional, Union
@@ -9,6 +10,8 @@ import termcolor
 from search_engine.request import JsonRequest
 from scrapy.shell import inspect_response
 from scrapy.responsetypes import Response
+from scrapy.utils import project
+from scrapy.mail import MailSender
 from termcolor import colored
 
 from search_engine import g_keywords, g_keywords_dict
@@ -57,6 +60,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
         self.keywords = g_keywords_dict.get(self.name, g_keywords)
+        self.mail = MailSender.from_settings(settings=project.get_project_settings())
 
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """
@@ -254,6 +258,12 @@ class ZhengFuBaseSpider(scrapy.Spider):
                 item[key] = val.strip()
 
         return item
+
+    def closed(self, reason):
+        subject = 'scrapy report'
+        body = """
+        search_engine 蜘蛛 {0} 完成运行, 原因{1}.""".format(self.name, reason)
+        return self.mail.send(to=["1070642565@qq.com"], subject=subject, body=body)
 
     ###############
     #  Interface  #
