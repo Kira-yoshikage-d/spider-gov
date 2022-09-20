@@ -9,3 +9,10 @@ class A张家口Spider(baseSpider):
         return {
             'content': response.css("#content  ::text").getall()
         }
+
+    @baseSpider.parser('张家口', 'www.zjk.gov.cn')
+    def parser_2(self, response, **kwargs):
+        return {
+            'content': response.css("#zoom  ::text").getall()
+        }
+
