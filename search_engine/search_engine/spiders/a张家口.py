@@ -40,7 +40,7 @@ class A张家口Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item['content_title'],
+            'title': Selector(text=item['content_title']).css("  ::text").getall(),
             'url': item['content_pageUrl'],
             'source': item['content_orgName'],
             'date': item['content_addTime'],
