@@ -37,7 +37,7 @@ class XinjiSpider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("h3.sr-title a::text").get(),
+            'title': item.css("h3.sr-title a::text").getall(),
             'url': 'https://www.xinji.gov.cn' + item.css("h3.sr-title a::attr(href)").get(),
             'date': item.css("div.sr-footer > span:nth-child(1)::text").get(),
             'source': '-'.join(item.css("div.sr-footer a::text").getall()),

@@ -14,7 +14,9 @@ class RequestGenerator:
 
     def fetch_url(self):
         filter={
-            'content': None
+            'content': {
+                '$exists': False
+            }
         }
         project={
             'url': 1, 
