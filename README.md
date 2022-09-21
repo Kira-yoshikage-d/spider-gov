@@ -4,15 +4,89 @@ __本项目用于学术研究自用，请勿用于违法行为，否则后果自
 
 ## TODO
 
-- [ ] 完善文档
-- [ ] 重构代码，让爬虫再通用，稳健，易用一些
+- [ ] 完善文档(WORKING)
+- [ ] 重构代码，让爬虫再通用，稳健，易用一些(WORKING)
 - [ ] 编写接口，把两个独立模块合并
 
-## search_engine 用于编写网站对应的搜索引擎
+## 项目架构
 
-TODO
+search_engine 爬取索引 + article_crawler 爬取正文
 
-## article_crawler 用于爬取文章内容
+### search_engine 用于编写网站对应的搜索引擎
+
+#### 配置
+
+1. 数据库配置
+
+    你需要安装最新的MongoDB与pymongo库.
+
+    在search_engine项目的settings.py同级目录下新建文件db.py， 或者你也可以直接将模板文件db.py_bak重命名为db.py
+    常规的配置如下：
+
+    ```python3
+    #!/usr/bin/env python
+    # -*- coding: utf-8 -*-
+
+    # 数据库地址
+    MONGODB_URI = 'mongodb://localhost:27017'
+    # 数据库名
+    MONGODB_DATABASE = 'scrapy_gov'
+
+    # 邮件配置
+    STATSMAILER_RCPTS = ['xxxxxxxx@gamil.com']
+    MAIL_FROM = 'xxxxxxxx@gamil.com'
+    MAIL_HOST = 'xxxxxxxx@gamil.com'
+    MAIL_PORT = 111
+    MAIL_USER = 'xxxxxxxx@gamil.com'
+    MAIL_PASS = 'pass'
+    MAIL_SSL = True
+    ```
+
+    ⚠️：该文件包含隐私信息，请勿添加到VCS中！
+
+2. 关键字配置
+
+    - 关键字
+
+        关键字集中保存在scrapy.cfg文件同级的keywords.json文件中，其结构如下：
+
+        ```json
+        {
+            'keywords_set_1': {
+                'city_1': '...',
+                'city_2': '...',
+                'city_3': '...',
+            },
+            'keywords_set_2': {
+                'city_1': '...',
+                'city_2': '...',
+                'city_3': '...',
+            }
+        }
+        ```
+
+        文件描述了若干个关键字集，通常你有多个不同主题的关键字搜索时会用到；
+
+        每个关键字集中city_x为爬虫名称，其后紧接由`、`分隔的，该爬虫应该搜索的若干关键字。如：
+
+        ```json
+        {
+            '黄山': '关键字_1、关键字_2、关键字_3',
+            '红山': '关键字_7、关键字_2、关键字_3'
+        }
+        ```
+
+        目前你还不可以自定义分隔符。
+
+    - 关键字集
+
+        此外，你还需要在settings.py中指明当前使用的关键字集。例如：
+
+        ```python3
+        SEARCH_ENGINE_KEYWORDS_SET = '政府工具'
+        ```
+
+### article_crawler 用于爬取文章内容
 
 TODO
 

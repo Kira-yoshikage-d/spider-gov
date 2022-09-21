@@ -9,11 +9,10 @@ db.py
 
 keywords.txt
 
-/article_crawler/data/content
-/article_crawler/data/uniq
-/.idea
+/.idea/
 .DS_Store/
-
+.DS_Store
+/essay/
+/data/
 __pycache__/
 
-!essay/京津翼地区政府官网.csv

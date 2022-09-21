@@ -22,7 +22,7 @@ class Command(ScrapyCommand):
         client = MongoClient(get_project_settings().get('MONGODB_URI'))
 
         filter={
-            'content': None
+            'content': {'$exists': False}
         }
 
         project={
