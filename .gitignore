@@ -16,4 +16,5 @@ keywords.txt
 
 __pycache__/
 
-!essay/京津翼地区政府官网.csv
+/essay
+/data
