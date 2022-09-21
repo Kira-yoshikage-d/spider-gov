@@ -17,5 +17,5 @@ class KeywordsReader:
         keywords_str = self.keywords.get(key, self.keywords.get('default'))
         if not keywords_str:
             raise Exception("not in keywords_set")
-        return self.keywords.get(key).split("、")
+        return keywords_str.split("、")
 
