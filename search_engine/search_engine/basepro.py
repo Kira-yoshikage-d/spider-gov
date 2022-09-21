@@ -1,6 +1,4 @@
 import abc
-from re import sub
-import sys
 import copy
 from typing import Any, Generator, Iterable, List, Optional, Union
 
@@ -14,14 +12,12 @@ from scrapy.utils import project
 from scrapy.mail import MailSender
 from termcolor import colored
 
-from search_engine import g_keywords, g_keywords_dict
+from search_engine.extensions.keywords_reader import KeywordsReader
 
 
 class ZhengFuBaseSpider(scrapy.Spider):
     name: str = ''
     start_urls: List[str] = ['']
-    # 关键字
-    keywords: List[str] = g_keywords
     # API
     api: str = ""
     # 模式 GET/POST
@@ -59,7 +55,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
-        self.keywords = g_keywords_dict.get(self.name, g_keywords)
+        self.keywords = KeywordsReader()[self.name]
         self.mail = MailSender.from_settings(settings=project.get_project_settings())
 
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
@@ -127,7 +123,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             FormRequestCLS = FormRequest
 
         if self.batch:
-            keywords = g_keywords
+            keywords = self.keywords
             data = self.build_data(keywords, page, **kwargs)
             req = FormRequestCLS(
                 url=url,
@@ -212,7 +208,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             elif '{keyword}' in str(val):
                 data[key] = val.format(keyword=keyword)
             elif '{keywords}' in str(val):
-                data[key] = val.format(keywords=g_keywords)
+                data[key] = val.format(keywords=self.keywords)
         return data
 
 

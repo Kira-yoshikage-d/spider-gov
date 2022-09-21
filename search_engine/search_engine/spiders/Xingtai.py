@@ -38,7 +38,7 @@ class XingtaiSpider(ZhengFuBaseSpider):
         """
         result = {
             'title': item.css("dt > a::text").get(),
-            'url': item.css("dt > a::attr(href)").re(r"'(.*?')")[0],
+            'url': item.css("dt > a::attr(href)").re(r"'(.*?)'")[0],
             'source': "无",
             'date': item.css("p::text").get(),
         }
