@@ -10,7 +10,7 @@ class A安阳Spider(ZhengFuBaseSpider):
     api: str = 'https://searchapi.anyang.gov.cn/open/api/external?keywords={keyword}&siteId=4550000372&allKeyword=&anyKeyword=&noKeyword=&searchRange=-1000&sortType=150&beginTime=&endTime=&pageNumber={page}&pageSize=15&fileType=0&docType=0'
     method: str = 'GET'
     data: dict[str, Any] = {}
-    debug: bool = True
+    debug: bool = False
 
 
     def edit_page(self, response: Selector) -> int:
@@ -30,14 +30,6 @@ class A安阳Spider(ZhengFuBaseSpider):
         """
         data = response.json()
         return data['data']['datas']
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
