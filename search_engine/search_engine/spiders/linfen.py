@@ -1,7 +1,6 @@
 from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 from scrapy import Selector
-from search_engine import g_keywords
 
 
 class LinfenSpider(ZhengFuBaseSpider):

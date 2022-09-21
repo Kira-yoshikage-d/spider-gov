@@ -3,7 +3,6 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-from search_engine import g_keywords
 
 # useful for handling different item types with a single interface
 
