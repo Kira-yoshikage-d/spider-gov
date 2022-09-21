@@ -9,3 +9,10 @@ class A邢台Spider(baseSpider):
         return {
             'content': response.css("#zoom  ::text").getall()
         }
+
+    @baseSpider.parser('邢台', 'www.xingtai.gov.cn')
+    def parser_2(self, response, **kwargs):
+        return {
+            'content': response.css("div.TRS_Editor  ::text").getall()
+        }
+

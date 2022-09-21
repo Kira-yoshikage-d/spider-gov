@@ -7,5 +7,5 @@ class A秦皇岛Spider(baseSpider):
     @baseSpider.parser('秦皇岛', 'www.qhd.gov.cn')
     def parser_1(self, response, **kwargs):
         return {
-            'result': response.css("#thirdtitle  ::text").getall()
+            'content': response.css("#thirdtitle  ::text").getall()
         }
