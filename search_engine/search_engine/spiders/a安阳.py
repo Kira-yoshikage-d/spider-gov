@@ -40,8 +40,8 @@ class A安阳Spider(ZhengFuBaseSpider):
         result = {
             'title': Selector(text=item['title']).css("  ::text").getall(),
             'url': item['selfUrl'],
-            'source': item['content_orgName'],
-            'date': item['source'],
+            'source': item['source'],
+            'date': item['pubDate'],
             'type': item['type'],
         }
         return result
