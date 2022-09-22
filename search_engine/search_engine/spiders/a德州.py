@@ -26,15 +26,7 @@ class A德州Spider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        return response.css("div.left div.serach_result_list ul li")
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
+        return response.css("div.serach_result_list > ul > li")
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -43,10 +35,10 @@ class A德州Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("h2 a::text").get().replace("\t","").replace("\r\n",""),
+            'title': item.css("h2 a::text").getall(),
             'url':  item.css("h2 a::attr(href)").get(),
             'type': item.css("h2 span::text").get(),
-            'date': item.css("span.link::text")[1].get().replace("\r\n","").replace("\t","").replace(" ","").split("：")[1]
+            'date': item.css("span.link::text").re("：(.*)"),
         }
         return result
 
