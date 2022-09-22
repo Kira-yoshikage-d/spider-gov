@@ -35,9 +35,9 @@ class A德州Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("h2 a::text").getall(),
+            'title': item.css("h2 a::text").get(),
             'url':  item.css("h2 a::attr(href)").get(),
-            'type': item.css("h2 span::text").get(),
+            'source': item.css("h2 span::text").get(),
             'date': item.css("span.link::text").re("：(.*)"),
         }
         return result
