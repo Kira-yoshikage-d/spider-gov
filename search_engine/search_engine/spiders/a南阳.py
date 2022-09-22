@@ -1,5 +1,3 @@
-from typing import Any, Generator, Iterable, List, Optional, Union
-
 from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 from scrapy import Selector
@@ -14,10 +12,8 @@ class A南阳Spider(ZhengFuBaseSpider):
         """
         返回解析页数.
         """
-        pages = response.css('div.pages > span::text').extract()[0].split('共')[2].split('页')[0]
+        pages: str = response.css('div.pages > span::text').re("共(.*?)条")[0]
         return int(pages)
-
-
 
     def edit_items_box(self, response: Response) -> Selector:
         """
@@ -25,12 +21,6 @@ class A南阳Spider(ZhengFuBaseSpider):
         返回 Selector
         """
         return response.css('ul.tpxw > li')
-
-    def edit_items(self, items_box: Selector) -> Selector:
-        """
-        将目录索引整理为标准迭代器.
-        """
-        return items_box
 
     def edit_item(self, item: Selector) -> dict:
         """
