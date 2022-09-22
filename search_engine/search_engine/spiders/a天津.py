@@ -32,7 +32,7 @@ class A天津Spider(ZhengFuBaseSpider):
         data = {
             "url": item["url"],
             "title": Selector(text=item["title"]).css("  ::text").getall(),
-            "date": item["trs_time"],
+            "date": item.get("trs_time", "无"),
             "type": item["trs_type"],
             "source": item.get("dept", "无"),
         }
