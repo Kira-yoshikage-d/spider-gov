@@ -12,8 +12,7 @@ class TangshanSpider(ZhengFuBaseSpider):
         """
         返回解析页数.
         """
-        text = response.css("div.main_body + div::text").get()
-        page = text.split("页")[0].split("/")[1]
+        page = response.css("div.main_body + div::text").re("共(.*?)条")[0]
         return int(page)
 
 
@@ -24,13 +23,6 @@ class TangshanSpider(ZhengFuBaseSpider):
         """
         return response.css("div.searchList div")
 
-
-    def edit_items(self, items_box: Selector) -> Selector:
-        """
-        将目录索引整理为标准迭代器.
-        """
-        return items_box
-
     def edit_item(self, item: Selector) -> dict:
         """
         从迭代器中提取item.
@@ -39,7 +31,6 @@ class TangshanSpider(ZhengFuBaseSpider):
             "url": item.css("a::attr(href)").get(),
             "title": item.css("a::attr(title)").get(),
             "date": item.css("span::text").get(),
-            "type": item.css("a::text").get().split("]")[0].split("[")[1]
+            "source": item.css("a::text").re(r"\[(.*)\]"),
         }
-
         return data
