@@ -15,31 +15,25 @@ class A天津Spider(ZhengFuBaseSpider):
         """
         返回解析页数.
         """
-        total = response.json().get("page")["total"]
-        return int(total)//10 + 1
+        total_pages = response.json()["page"]["totalPages"]
+        return int(total_pages)
 
     def edit_items_box(self, response: Response):
         """
         返回目录索引.
         返回 Selector
         """
-        return response.json().get("page")["content"]
+        return response.json()["page"]["content"]
 
-    def edit_items(self, items_box):
-        """
-        将目录索引整理为标准迭代器.
-        """
-        return items_box
-
-    def edit_item(self, item: Selector) -> dict:
+    def edit_item(self, item: dict) -> dict:
         """
         从迭代器中提取item.
         """
         data = {
             "url": item["url"],
-            "title": item["title"],
-            "date": item["trs_time"].split("T")[0],
-            "type": item["trs_type"]
+            "title": Selector(text=item["title"]).css("  ::text").getall(),
+            "date": item["trs_time"],
+            "type": item["trs_type"],
+            "source": item.get("dept", "无"),
         }
-
         return data
