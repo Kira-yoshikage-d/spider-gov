@@ -35,6 +35,8 @@ class A保定Spider(ZhengFuBaseSpider):
         input: items
         return: item_dict
         """
+        if 'index.do' in item.css("::attr(href)").get():
+            return None
         result = {
             'title': item.css("::text").get(),
             'url': 'http://www.baoding.gov.cn/' + item.css("::attr(href)").get(),
