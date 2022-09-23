@@ -1,5 +1,7 @@
 from typing import Any, Generator, Iterable, List, Optional, Union
 
+from scrapy.exceptions import DropItem
+
 from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 from scrapy import Selector
@@ -36,7 +38,7 @@ class A保定Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         if 'index.do' in item.css("::attr(href)").get():
-            return None
+            raise DropItem()
         result = {
             'title': item.css("::text").get(),
             'url': 'http://www.baoding.gov.cn/' + item.css("::attr(href)").get(),
