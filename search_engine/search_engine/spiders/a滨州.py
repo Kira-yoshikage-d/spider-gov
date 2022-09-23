@@ -1,6 +1,10 @@
 from typing import Any, Generator, Iterable, List, Optional, Union
 
 from search_engine.basepro import ZhengFuBaseSpider
+<<<<<<< HEAD
+=======
+from scrapy.responsetypes import Response
+>>>>>>> 滨州
 from scrapy import Selector
 import time
 
