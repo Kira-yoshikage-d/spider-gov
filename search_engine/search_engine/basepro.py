@@ -108,6 +108,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
                               meta={"keyword": keyword},
                               headers=headers,
                               callback=callback)
+
                 yield req
 
     def start_post_requests(self, page=1, callback=None, start_mode=False, **kwargs) -> Generator[Union[FormRequest, JsonRequest], None, None]:
