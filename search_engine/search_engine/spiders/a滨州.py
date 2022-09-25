@@ -1,16 +1,20 @@
 from typing import Any, Generator, Iterable, List, Optional, Union
 
 from search_engine.basepro import ZhengFuBaseSpider
+<<<<<<< HEAD
+=======
 from scrapy.responsetypes import Response
+>>>>>>> 滨州
 from scrapy import Selector
+import time
 
 
-class A安阳Spider(ZhengFuBaseSpider):
-    name: str = '安阳'
-    api: str = 'https://searchapi.anyang.gov.cn/open/api/external?keywords={keyword}&siteId=4550000372&allKeyword=&anyKeyword=&noKeyword=&searchRange=-1000&sortType=150&beginTime=&endTime=&pageNumber={page}&pageSize=15&fileType=0&docType=0'
+class A滨州Spider(ZhengFuBaseSpider):
+    name: str = '滨州'
+    api: str = 'http://60.215.8.10:9027/zfxxgk/api/news/listQuery?column=fbdate&order=desc&jgid=&syh=371601&titleLike={keyword}&bodyLike=&fbdateBegin=&fbdateEnd=&cwbdateBegin=&cwbdateEnd=&yxx=&gwzl=&pageSize=20&pageNo={page}'
     method: str = 'GET'
     data: dict[str, Any] = {}
-    debug: bool = True
+    debug: bool = False
 
 
     def edit_page(self, response: Selector) -> int:
@@ -18,9 +22,8 @@ class A安阳Spider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        data = response.json()
-        total = data['data']['totalPage']
-        return int(total)
+        page = response.json()['result']['pages']
+        return int(page)
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -28,8 +31,7 @@ class A安阳Spider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        data = response.json()
-        return data['data']['datas']
+        return response.json()['result']['records']
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -38,11 +40,10 @@ class A安阳Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': Selector(text=item['title']).css("  ::text").getall(),
-            'url': item['selfUrl'],
-            'source': item['source'],
-            'date': item['pubDate'],
-            'type': item['type'],
+            'title': item['title'],
+            'url': 'http://www.binzhou.gov.cn/zfxxgk/news/html/?{0}.html'.format(item['id']),
+            'source': item['fwjg'],
+            'date': time.strftime("%Y-%m-%d", time.localtime(int(item['fbdate'])/1000)),
         }
         return result
 

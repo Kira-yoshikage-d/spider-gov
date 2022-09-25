@@ -14,5 +14,8 @@ class KeywordsReader:
         self.keywords = keywords_sets.get(keywords_set)
 
     def __getitem__(self, key: str):
-        return self.keywords.get(key).split("、")
+        keywords_str = self.keywords.get(key, self.keywords.get('default'))
+        if not keywords_str:
+            raise Exception("not in keywords_set")
+        return keywords_str.split("、")
 

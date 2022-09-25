@@ -5,7 +5,7 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class CangzhouSpider(ZhengFuBaseSpider):
+class A沧州(ZhengFuBaseSpider):
     name: str = '沧州'
     api: str = 'http://www.cangzhou.gov.cn/guestweb4/s?searchWord={keyword}&column=%E5%85%A8%E9%83%A8&wordPlace=1&orderBy=0&startTime=&endTime=&pageSize=10&pageNum={page}&timeStamp=0&siteCode=1309000040&sonSiteCode=&checkHandle=1&strFileType=&govWorkBean=%7B%7D&sonSiteCode=&areaSearchFlag=-1&secondSearchWords=&topical=&pubName=&countKey=0&uc=0&left_right_index=0'
     method: str = 'GET'

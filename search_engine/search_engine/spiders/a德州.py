@@ -5,12 +5,11 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class A安阳Spider(ZhengFuBaseSpider):
-    name: str = '安阳'
-    api: str = 'https://searchapi.anyang.gov.cn/open/api/external?keywords={keyword}&siteId=4550000372&allKeyword=&anyKeyword=&noKeyword=&searchRange=-1000&sortType=150&beginTime=&endTime=&pageNumber={page}&pageSize=15&fileType=0&docType=0'
+class A德州Spider(ZhengFuBaseSpider):
+    name: str = '德州'
+    api: str = 'http://www.dezhou.gov.cn/searchweb/search?page={page}&channelid=275584&searchword={keyword}&keyword={keyword}&perpage=10&outlinepage=10&&andsen=&total=&orsen=&exclude=&searchscope=&timescope=&timescopecolumn=&orderby=%2BSITEID%2C-PUBLISH_TIME'
     method: str = 'GET'
-    data: dict[str, Any] = {}
-    debug: bool = True
+    debug: bool = False
 
 
     def edit_page(self, response: Selector) -> int:
@@ -18,9 +17,8 @@ class A安阳Spider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        data = response.json()
-        total = data['data']['totalPage']
-        return int(total)
+        total = response.css("div.left div.result p span::text").get()
+        return int(total)//10 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -28,8 +26,7 @@ class A安阳Spider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        data = response.json()
-        return data['data']['datas']
+        return response.css("div.serach_result_list > ul > li")
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -38,11 +35,10 @@ class A安阳Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': Selector(text=item['title']).css("  ::text").getall(),
-            'url': item['selfUrl'],
-            'source': item['source'],
-            'date': item['pubDate'],
-            'type': item['type'],
+            'title': item.css("h2 a::text").get(),
+            'url':  item.css("h2 a::attr(href)").get(),
+            'source': item.css("h2 span::text").get(),
+            'date': item.css("span.link::text").re("：(.*)"),
         }
         return result
 
