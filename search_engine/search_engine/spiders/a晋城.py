@@ -19,7 +19,7 @@ class A晋城Spider(ZhengFuBaseSpider):
         """
         data = response.json()
         total = data['data']['total']
-        return int(total)
+        return int(total) // 10 +1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
