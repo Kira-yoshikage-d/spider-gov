@@ -10,7 +10,7 @@ class A晋城Spider(ZhengFuBaseSpider):
     api: str = 'https://www.jcgov.gov.cn/trssearch/v2/searchAll.do?siteId=13&searchTag=all&allKeywords={keyword}&fullKeywords=&orKeywords=&notKeywords=&sort=&position=0&organization=&pageNum={page}&pageSize=10&zcYear=&isAlways=1&fileTag='
     method: str = 'GET'
     data: dict[str, Any] = {}
-    debug: bool = True
+    debug: bool = False
 
     def edit_page(self, response: Selector) -> int:
         """
@@ -47,8 +47,8 @@ class A晋城Spider(ZhengFuBaseSpider):
         result = {
             'title': Selector(text=item['title']).css("  ::text").getall(),
             'url': item['docpuburl'],
-            'source': item['content_orgName'],
-            'date': item['sitedesc'],
+            'source': item['sitedesc'],
+            'date': item['docpubtime'],
             'type': item['chnldesc'],
         }
         return result
