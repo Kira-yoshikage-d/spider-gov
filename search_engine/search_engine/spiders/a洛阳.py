@@ -1,8 +1,9 @@
+import time
 from typing import Any, Generator, Iterable, List, Optional, Union
 
-from search_engine.basepro import ZhengFuBaseSpider
-from scrapy.responsetypes import Response
 from scrapy import Selector
+from scrapy.responsetypes import Response
+from search_engine.basepro import ZhengFuBaseSpider
 
 
 class A洛阳Spider(ZhengFuBaseSpider):
@@ -10,7 +11,6 @@ class A洛阳Spider(ZhengFuBaseSpider):
     api: str = 'https://article.ly.gov.cn/ms-mcms/esArticle/queryEsArticle.do?pageNumber={page}&pageSize=5&keyword={keyword}&dateType=&esType='
     method: str = 'GET'
     debug: bool = False
-
 
     def edit_page(self, response: Selector) -> int:
         """
@@ -28,14 +28,6 @@ class A洛阳Spider(ZhengFuBaseSpider):
         """
         return response.json()["list"]
 
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
-
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
         将从items容器中迭代出的item解析出信息
@@ -43,9 +35,10 @@ class A洛阳Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         raw_title = Selector(text=item.get("title", "unknow"))
+        raw_date = time.localtime(int(item.get("date", 0)) // 1000)
         result = {
-            'title': "".join(raw_title.css("::text").getall()),
+            'title': raw_title.css("::text").getall(),
             'url': item.get("url", "unknow"),
+            'date': time.strftime("%Y-%m-%d", raw_date),
         }
         return result
-

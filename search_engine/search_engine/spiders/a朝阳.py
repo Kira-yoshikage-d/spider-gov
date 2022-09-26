@@ -2,7 +2,7 @@ import scrapy
 from search_engine.basepro import ZhengFuBaseSpider
 
 
-class ChaoyangSpider(ZhengFuBaseSpider):
+class A朝阳Spider(ZhengFuBaseSpider):
     """TODO SCRAPY"""
     name = '朝阳'
     allowed_domains = ['chaoyang.gov.cn']
@@ -14,15 +14,15 @@ class ChaoyangSpider(ZhengFuBaseSpider):
     data = {
         'siteCode': 'CYSZF',
         'isAll': '0',
-        'offset': 'page',
+        'offset': '{page}',
         'limit': '15',
         'template': 'CYSZF',
+        'resultOrderBy': '0',
         'ssfw': '2',
         'sswjlx': '1',
         'timefw': '1',
         'columnTypeId': '',
         'searchKey': '{keyword}',
-        'page': '{page}',
     }
 
     def edit_items_box(self, response):
