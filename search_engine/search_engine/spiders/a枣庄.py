@@ -1,8 +1,8 @@
 from typing import Any, Generator, Iterable, List, Optional, Union
 
-from search_engine.basepro import ZhengFuBaseSpider
-from scrapy.responsetypes import Response
 from scrapy import Selector
+from scrapy.responsetypes import Response
+from search_engine.basepro import ZhengFuBaseSpider
 
 
 class A枣庄Spider(ZhengFuBaseSpider):
@@ -11,14 +11,13 @@ class A枣庄Spider(ZhengFuBaseSpider):
     method: str = 'GET'
     debug: bool = False
 
-
     def edit_page(self, response: Selector) -> int:
         """
         input: response
         return: int
         """
-        total = response.css("div.xw_seCondition span::text").get()[0]
-        return int(total)//10 + 1
+        total = response.css("div.xw_seCondition span::text").get()
+        return int(total) // 10 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -27,14 +26,6 @@ class A枣庄Spider(ZhengFuBaseSpider):
         return: items_box
         """
         return response.css("div.xw_reLeft ul li")
-
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -48,4 +39,3 @@ class A枣庄Spider(ZhengFuBaseSpider):
             'date': item.css("span::text").re("发布时间：(.*)")[0],
         }
         return result
-
