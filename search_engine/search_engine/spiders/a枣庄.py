@@ -34,8 +34,8 @@ class A枣庄Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("a::attr(href)").get(),
-            'url': item.css("h2::text").get(),
+            'url': item.css("a::attr(href)").get(),
+            'title': item.css("h2::text").get(),
             'date': item.css("span::text").re("发布时间：(.*)")[0],
         }
         return result
