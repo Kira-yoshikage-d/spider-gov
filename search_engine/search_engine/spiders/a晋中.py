@@ -43,10 +43,10 @@ class A晋中Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': "".join(item.css("h4 a::text,h4 span::text").getall()).strip(),
+            'title': item.css("h4 a::text,h4 span::text").getall(),
             'url': item.css("h4 a::attr(href)").get(),
             'source': item.css("div.attribution span::text").re("来源：(.*)")[0],
-            'date': item.css("div.attribution::text").re("\d{4}/\d{1,2}/\d{1,2}")[0],
+            'date': item.css("div.attribution::text").re(r"\d{4}/\d{1,2}/\d{1,2}")[0],
             'type': item.css("span::text").get()
         }
         return result
