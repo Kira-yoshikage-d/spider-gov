@@ -44,6 +44,7 @@ class Command(ScrapyCommand):
             csv_writer = DictWriter(f, fieldnames=['url'])
             csv_writer.writeheader()
             for item in result:
-                csv_writer.writerow(item)
+                if 'http' in item['url']:
+                    csv_writer.writerow(item)
 
         print("dumps into data/dumps/{0}.csv".format(args[0]))

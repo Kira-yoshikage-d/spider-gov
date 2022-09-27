@@ -32,4 +32,5 @@ class RequestGenerator:
           sort=sort
         )
         for item in result:
-            yield item
+            if 'http' in item['url']:
+                yield item
