@@ -38,4 +38,6 @@ class A枣庄Spider(ZhengFuBaseSpider):
             'title': item.css("h2::text").get(),
             'date': item.css("span::text").re("发布时间：(.*)")[0],
         }
+        if 'http' in result['title']:
+            result['title'], result['url'] = result['url'], result['title']
         return result
