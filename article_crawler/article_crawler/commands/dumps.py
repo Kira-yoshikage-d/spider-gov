@@ -15,9 +15,7 @@ class Command(ScrapyCommand):
     def short_desc(self):
         return "获取爬虫当前待爬取的url"
 
-    def run(self, args, opts):
-        if len(args) != 1:
-            raise UsageError()
+    def save(self, city: str):
 
         client = MongoClient(get_project_settings().get('MONGODB_URI'))
 
@@ -34,17 +32,21 @@ class Command(ScrapyCommand):
             'url': 1
         }.items())
 
-        result = client['scrapy_gov'][args[0]].find(
+        result = client['scrapy_gov'][city].find(
           filter=filter,
           projection=project,
           sort=sort
         )
 
-        with open(file="data/dumps/{0}.csv".format(args[0]), mode="w", encoding="utf-8") as f:
+        with open(file="data/dumps/{0}.csv".format(city), mode="w", encoding="utf-8") as f:
             csv_writer = DictWriter(f, fieldnames=['url'])
             csv_writer.writeheader()
             for item in result:
                 if 'http' in item['url']:
                     csv_writer.writerow(item)
 
-        print("dumps into data/dumps/{0}.csv".format(args[0]))
+        print("dumps into data/dumps/{0}.csv".format(city))
+
+    def run(self, args, opts):
+        for city in args:
+            self.save(city)

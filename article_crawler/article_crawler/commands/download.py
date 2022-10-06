@@ -15,15 +15,11 @@ class Command(ScrapyCommand):
     def short_desc(self):
         return "下载数据"
 
-
-    def run(self, args, opts):
-        if len(args) != 1:
-            raise UsageError()
-
+    def save(self, city: str):
         client = MongoClient(get_project_settings().get('MONGODB_URI'))
 
 
-        total_num: int = client['scrapy_gov'][args[0]].count_documents(
+        total_num: int = client['scrapy_gov'][city].count_documents(
             filter={
                 'content': {
                     '$exists': True
@@ -33,7 +29,7 @@ class Command(ScrapyCommand):
 
         print(f"{total_num} documents found.")
 
-        result = client['scrapy_gov'][args[0]].aggregate([
+        result = client['scrapy_gov'][city].aggregate([
             {
                 '$match': {
                     'content': {
@@ -87,7 +83,7 @@ class Command(ScrapyCommand):
             }
         ])
 
-        with open(file="data/download/{0}.csv".format(args[0]), mode="w", encoding="utf-8") as f:
+        with open(file="data/download/{0}.csv".format(city), mode="w", encoding="utf-8") as f:
             csv_writer = DictWriter(f, fieldnames=['city', 'title', 'keywords', 'date', 'content', 'url'])
             csv_writer.writeheader()
             with tqdm.tqdm(total=total_num, miniters=1, desc="downloading", colour='green') as pbar:
@@ -95,4 +91,8 @@ class Command(ScrapyCommand):
                     csv_writer.writerow(item)
                     pbar.update(1)
 
-        print("downloaded into data/download/{0}.csv".format(args[0]))
+        print("downloaded into data/download/{0}.csv".format(city))
+
+    def run(self, args, opts):
+        for city in args:
+            self.save(city)
