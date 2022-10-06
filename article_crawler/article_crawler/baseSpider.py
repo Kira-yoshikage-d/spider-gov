@@ -57,7 +57,7 @@ class baseSpider(Spider):
     def post_process(self, result, **kwargs):
         for key, val in result.items():
             if isinstance(val, list):
-                val = '\n'.join([v for v in val if v.strip()])
+                val = ''.join([v for v in val if v.strip()])
             if val:
                 result[key] = val.strip()
         for key, val in kwargs.items():
