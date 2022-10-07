@@ -45,3 +45,34 @@ class A北京Spider(baseSpider):
         return {
             'content': response.css("div.article_i  :not(script):not(style)::text").getall()
         }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_8(self, response, **kwargs):
+        return {
+            'content': response.css("div.view.TRS_UEDITOR.trs_paper_default.trs_web  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_9(self, response, **kwargs):
+        return {
+            'content': response.css("div.mycontont  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_10(self, response, **kwargs):
+        return {
+            'content': response.css("div.content  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_11(self, response, **kwargs):
+        return {
+            'content': response.css("#ggzw > font  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_12(self, response, **kwargs):
+        return {
+            'content': response.css("div.detail-desc  :not(script):not(style)::text").getall()
+        }
+
