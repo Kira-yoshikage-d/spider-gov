@@ -76,3 +76,44 @@ class A北京Spider(baseSpider):
             'content': response.css("div.detail-desc  :not(script):not(style)::text").getall()
         }
 
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_13(self, response, **kwargs):
+        return {
+            'content': response.css("div.xiangqing  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_14(self, response, **kwargs):
+        return {
+            'content': response.css("div.article  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_15(self, response, **kwargs):
+        return {
+            'content': response.css("div#fontzoom  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_16(self, response, **kwargs):
+        return {
+            'content': response.css("div.overview  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_17(self, response, **kwargs):
+        return {
+            'content': response.css("div.easysite-news-text  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_18(self, response, **kwargs):
+        return {
+            'content': response.css("div.nrtxt  :not(script):not(style)::text").getall()
+        }
+
+    @baseSpider.parser('北京', 'http://fgw.beijing.gov.cn/fgwzwgk/zcgk/sjbmgfxwj/gjfgwwj/202004/t20200420_1847539.htm')
+    def parser_19(self, response, **kwargs):
+        return {
+            'content': response.css("div.detailContent  :not(script):not(style)::text").getall()
+        }
