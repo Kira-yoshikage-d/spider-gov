@@ -14,7 +14,6 @@ from termcolor import colored
 
 from search_engine.extensions.keywords_reader import KeywordsReader
 
-
 class ZhengFuBaseSpider(scrapy.Spider):
     name: str = ''
     start_urls: List[str] = ['']
@@ -108,7 +107,6 @@ class ZhengFuBaseSpider(scrapy.Spider):
                               meta={"keyword": keyword},
                               headers=headers,
                               callback=callback)
-
                 yield req
 
     def start_post_requests(self, page=1, callback=None, start_mode=False, **kwargs) -> Generator[Union[FormRequest, JsonRequest], None, None]:
@@ -137,6 +135,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         else:
             for keyword in keywords:
                 data = self.build_data(keyword, page, **kwargs)
+
                 req = FormRequestCLS(
                     url=url,
                     meta={"keyword": keyword, "formdata": data, "page": page},
@@ -179,7 +178,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
         # 抛出余下页的请求
         for page in range(start_page, end_page):
-            yield from self.start_general_requests(method=self.method, 
+            yield from self.start_general_requests(method=self.method,
                                                    page=page, 
                                                    callback=self.parse_items,
                                                    last_response=response)
