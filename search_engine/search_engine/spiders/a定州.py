@@ -3,7 +3,7 @@ from typing import Dict, Optional, Union, Any
 from search_engine.basepro import ZhengFuBaseSpider
 
 
-class A北京(ZhengFuBaseSpider):
+class A定州(ZhengFuBaseSpider):
     """POST
     TODO token 反爬"""
     custom_settings: Optional[dict] = {
@@ -13,13 +13,13 @@ class A北京(ZhengFuBaseSpider):
         'COOKIES_ENABLED': False,
         'DOWNLOAD_DELAY': 0.5,
     }
-    name = '北京'
-    token_url = 'http://www.beijing.gov.cn/so/s?tab=all&siteCode=1100000088&qt={keyword}'
-    api = 'http://www.beijing.gov.cn/so/ss/s'
+    name = '定州'
+    token_url = 'http://www.dzs.gov.cn/so/s?qt={keyword}&x=47&y=28'
+    api = 'https://api.so-gov.cn/s'
     method = "POST"
     debug: bool = False
     data = {
-        "siteCode": "1100000088",
+        "siteCode": "1306820002",
         "tab": "all",
         "timestamp": "{timestamp}",
         "wordToken": "{wordtoken}",
