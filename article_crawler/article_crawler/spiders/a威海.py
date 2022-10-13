@@ -15,3 +15,9 @@ class A威海Spider(baseSpider):
         return {
             'content': response.css("div.xxgkcont  :not(script):not(style)::text").getall()
         }
+
+    @baseSpider.parser('威海', 'www.weihai.gov.cn')
+    def parser_3(self, response, **kwargs):
+        return {
+            'content': response.css("#content  :not(script):not(style)::text").getall()
+        }

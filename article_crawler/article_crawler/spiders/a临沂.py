@@ -15,3 +15,9 @@ class A临沂Spider(baseSpider):
         return {
             'content': response.css("#js_content  :not(script):not(style)::text").getall()
         }
+
+    @baseSpider.parser('临沂', 'lyzwfw.sd.gov.cn')
+    def parser_3(self, response, **kwargs):
+        return {
+            'content': response.css("#vbs_content  :not(script):not(style)::text").getall()
+        }
