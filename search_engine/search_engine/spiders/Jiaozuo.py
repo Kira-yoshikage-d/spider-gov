@@ -74,7 +74,7 @@ class JiaozuoSpider(ZhengFuBaseSpider):
             "url": "http://www.jiaozuo.gov.cn" + item.get("articleUri", ""),
             "date": item.get("articlePublishTime", ""),
             "source": item.get("siteName", ""),
-            "type": item.get("catalogName", ""),
+            "type": item.get("catalogName", "")
         }
         return result
 
