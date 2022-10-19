@@ -13,7 +13,7 @@ class A商丘Spider(ZhengFuBaseSpider):
     cookie: str = "__RequestVerificationToken=a2Jl4EdQsmukCAhr3vaFbf_iZTcEJ1VKg48_jFWiwBMFVX1HnifBC_We6LB-qCeiFu3DRg2; ASP.NET_SessionId=nra1jawbzocpyxathorgimse"
 
     custom_settings: Optional[dict] = {
-        'DOWNLOAD_DELAY': 5,
+        'DOWNLOAD_DELAY': 2,
     }
 
     def edit_page(self, response: Response) -> int:
@@ -30,12 +30,12 @@ class A商丘Spider(ZhengFuBaseSpider):
         返回 Selector
         """
         return response.css("div.s-result > div.result-list.article.result-list.information.clearfix ul")
+
     def edit_items(self, items_box: Selector) -> Selector:
         """
         将目录索引整理为标准迭代器.
         """
         return items_box.css("li")
-
 
     def edit_item(self, item: Selector) -> dict:
         """
