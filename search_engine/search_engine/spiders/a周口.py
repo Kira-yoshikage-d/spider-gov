@@ -5,39 +5,27 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class JiaozuoSpider(ZhengFuBaseSpider):
-    name: str = '焦作'
-    api: str = 'http://www.jiaozuo.gov.cn/search/SolrSearch/searchData'
+class A周口Spider(ZhengFuBaseSpider):
+    name: str = '周口'
+    api: str = 'http://www.zhoukou.gov.cn/search/SolrSearch/searchData'
     method: str = 'POST'
-    debug: bool = False
-    data = {
+    data: dict[str, Any] = {
         'q': '{keyword}',
-        'catalogId': '',
         'type': '',
-        'allWord': '',
-        'noWord': '',
         'timeType': '',
         'sort': '',
         'order': '',
         'forCatalogType': '0',
-        'token4': '4243bdcb86554de0b1ba92050a3365df',
-        'siteId': '',
+        'token4': '1a1365d6d0d64a00b074d6131acb1860',
+        'siteId': '9752499e88b94e1881e46bbeeef1376e',
         'offset': '{page}',
-        'limit': '8',
+        'limit': '10',
         'infoType': ''
     }
-
-    # custom_settings: Optional[dict] = {
-    #     'DOWNLOADER_MIDDLEWARES': {
-    #         'search_engine.middlewares.WordTokenDownloaderMiddleware': 543,
-    #     },
-    #     'COOKIES_ENABLED': False,
-    #     'DOWNLOAD_DELAY': 0.5,
-    # }
-    # token_url = 'http://www.jiaozuo.gov.cn/search/SolrSearch/s'
+    debug: bool = False
 
     def edit_data(self, data: dict, keyword: str, page: int, **kwargs) -> dict[str, Any]:
-        data['offset'] = int((page-1) * 8)
+        data['offset'] = (page-1)*10
         return data
 
     def edit_page(self, response: Selector) -> int:
@@ -45,7 +33,7 @@ class JiaozuoSpider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        return int(response.json()["totalPage"])
+        return int(response.json()['totalPage'])
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -53,7 +41,7 @@ class JiaozuoSpider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        return response.json()["rows"]
+        return response.json()['rows']
 
     def edit_items(self, items_box: Any) -> Iterable[Any]:
         """
@@ -71,10 +59,9 @@ class JiaozuoSpider(ZhengFuBaseSpider):
         """
         result = {
             "title": item.get("articleTitle", ""),
-            "url": "http://www.jiaozuo.gov.cn" + item.get("articleUri", ""),
+            "url": "http://www.zhoukou.gov.cn" + item.get("articleUri", ""),
             "date": item.get("articlePublishTime", ""),
             "source": item.get("siteName", ""),
-            "type": item.get("catalogName", "")
         }
         return result
 
