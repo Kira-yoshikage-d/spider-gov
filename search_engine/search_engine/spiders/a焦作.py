@@ -5,7 +5,7 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class JiaozuoSpider(ZhengFuBaseSpider):
+class A焦作(ZhengFuBaseSpider):
     name: str = '焦作'
     api: str = 'http://www.jiaozuo.gov.cn/search/SolrSearch/searchData'
     method: str = 'POST'
