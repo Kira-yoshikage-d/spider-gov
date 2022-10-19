@@ -39,14 +39,6 @@ class A新乡Spider(ZhengFuBaseSpider):
         """
         return response.css("div.media")
 
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
-
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
         将从items容器中迭代出的item解析出信息
