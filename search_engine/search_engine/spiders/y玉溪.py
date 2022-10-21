@@ -3,11 +3,11 @@ from scrapy.responsetypes import Response
 from search_engine.basepro import ZhengFuBaseSpider
 
 
-class Y玉溪Spider(ZhengFuBaseSpider):
+class Y玉溪(ZhengFuBaseSpider):
+    """TODO crawl"""
     name = '玉溪'
     api = "http://www.yuxi.gov.cn/yxgovfront/search_{page}.jspx?q={keyword}&_s_=1&rangeBy=title&orderBy=time&dir=desc"
     method = "GET"
-    debug = False
 
     def edit_page(self, response: Response) -> int:
         total_num = int(response.css("body > div.search-page.common-padding-bottom > div.search-result > div > "
@@ -17,7 +17,7 @@ class Y玉溪Spider(ZhengFuBaseSpider):
     def edit_items_box(self, response: Response):
         return response.css("dl")
 
-    def edit_item(self, item) ->dict:
+    def edit_item(self, item):
         data = {
             'url' : item.css("dt a::attr(href)").get(),
             'title' : item.css("dt > a::text").getall(),
@@ -25,5 +25,4 @@ class Y玉溪Spider(ZhengFuBaseSpider):
             'date' : item.css("dd.origin >span::text").get(),
             'type' : 'unknown'
         }
-
         return data
