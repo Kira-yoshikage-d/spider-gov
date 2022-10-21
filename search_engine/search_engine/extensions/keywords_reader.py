@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 from scrapy.utils import project
+import os
 from typing import Dict, List
 
 class KeywordsReader:

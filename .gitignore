@@ -21,3 +21,8 @@ keywords.txt
 data/
 __pycache__/
 
+build/
+dbs/
+eggs/
+project.egg-info/
+*.egg

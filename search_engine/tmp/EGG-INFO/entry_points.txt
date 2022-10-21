@@ -1,0 +1,2 @@
+[scrapy]
+settings = search_engine.settings

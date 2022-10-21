@@ -16,8 +16,8 @@ class baseSpider(Spider):
     """article_crawler 的基础爬虫"""
     parser_hooks = defaultdict(list)
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.not_handled = []
         # TODO
         self.handled = []

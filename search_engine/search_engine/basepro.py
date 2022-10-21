@@ -1,5 +1,6 @@
 import abc
 import copy
+import os
 from typing import Any, Generator, Iterable, List, Optional, Union
 
 import scrapy
@@ -16,22 +17,22 @@ from search_engine.extensions.keywords_reader import KeywordsReader
 
 
 class ZhengFuBaseSpider(scrapy.Spider):
-    name: str = ''
-    start_urls: List[str] = ['']
+    name = ''
+    start_urls = ['']
     # API
-    api: str = ""
+    api = ""
     # 模式 GET/POST
-    method: str = "default"
+    method = "default"
     # 测试用 headers
-    headers: dict[str, str] = {
+    headers = {
         "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
     }
-    cookie: str = ""
+    cookie = ""
     # 数据模板
-    data: dict[str, Any] = {}
+    data = {}
     # 是否解析第一页
-    parse_first: bool = True
+    parse_first = True
     # 起始页api
     api_start: str = api
     # 起始页的索引 (某些情况下需要调整为 0 )
@@ -55,6 +56,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
 
     def __init__(self, name=None, **kwargs):
         super().__init__(name, **kwargs)
+        self.logger.debug(os.path.abspath(''))
         self.keywords = KeywordsReader()[self.name]
         self.mail = MailSender.from_settings(settings=project.get_project_settings())
 
@@ -184,7 +186,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
                                                    callback=self.parse_items,
                                                    last_response=response)
 
-    def build_data(self, keyword='煤炭', page=1, **kwargs) -> dict[str, str]:
+    def build_data(self, keyword='煤炭', page=1, **kwargs):
         """从默认数据模板构造数据."""
         data = copy.copy(self.data)
         # 默认模板渲染
@@ -195,14 +197,14 @@ class ZhengFuBaseSpider(scrapy.Spider):
         data = self.post_edit_data(data)
         return data
 
-    def post_edit_data(self, data: dict[str, Any]) -> dict[str, str]:
+    def post_edit_data(self, data):
         for key, val in data.items():
             if val is None:
                 continue
             data[key] = str(val)
         return data
 
-    def render_data_template(self, data: dict[str, str], keyword: str, page: Union[int, str]) -> dict[str, str]:
+    def render_data_template(self, data, keyword: str, page):
         for key, val in data.items():
             if '{page}' in str(val):
                 data[key] = val.format(page=page)
@@ -213,7 +215,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         return data
 
 
-    def parse_items(self, response) -> Generator[Union[dict[str, str], None], None, None]:
+    def parse_items(self, response):
         items_box = self.edit_items_box(response)
         items = self.edit_items(items_box)
         keyword = response.meta["keyword"]
@@ -222,7 +224,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         for item in items:
             yield self.parse_item(item, keyword)
 
-    def parse_item(self, item, keyword) -> Optional[dict[str, str]]:
+    def parse_item(self, item, keyword):
         """解析item"""
         item = self.edit_item(item)
         item = self.post_parse_item(item, keyword)
@@ -230,7 +232,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             return None
         return item
 
-    def post_parse_item(self, item: dict[str, Any], keyword: str) -> dict[str, str]:
+    def post_parse_item(self, item, keyword: str):
         """钩子函数，默认将关键字存入数据."""
         if not self.batch:
             item["keyword"] = keyword
@@ -267,7 +269,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
     ###############
 
     @abc.abstractmethod
-    def edit_data(self, data: dict, keyword: str, page: int, **kwargs) -> dict[str, Any]:
+    def edit_data(self, data: dict, keyword: str, page: int, **kwargs):
         """
         当请求方法为POST时应该发出的数据包
         input:
@@ -279,7 +281,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         return data
 
     @abc.abstractmethod
-    def edit_items_box(self, response: Response) -> Union[Any, Iterable[Any]]:
+    def edit_items_box(self, response: Response):
         """
         从原始响应解析出包含items的容器
         input: response
@@ -288,7 +290,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
+    def edit_items(self, items_box: Any):
         """
         从items容器中解析出items的迭代容器
         input: items_box
@@ -297,7 +299,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         return items_box
 
     @abc.abstractmethod
-    def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
+    def edit_item(self, item: Any):
         """
         将从items容器中迭代出的item解析出信息
         input: items
