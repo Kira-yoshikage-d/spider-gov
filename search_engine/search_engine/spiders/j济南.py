@@ -3,18 +3,11 @@ from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.selector import Selector
 
 
-class JinanSpider(ZhengFuBaseSpider):
+class J济南(ZhengFuBaseSpider):
     """TODO crawl"""
     name = '济南'
     api = "http://www.jinan.gov.cn/jsearchfront/interfaces/cateSearch.do"
     method = "POST"
-    allowed_domains = ['jinan.gov.cn']
-    start_urls = ['http://www.jinan.gov.cn']
-    headers = {
-        "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
-        "Content-Type": "application/x-www-form-urlencoded",
-    }
     data = {
         "websiteid": "370100000000000",
         "q": "{keyword}",
@@ -24,7 +17,11 @@ class JinanSpider(ZhengFuBaseSpider):
         "cateid": "1163",
         "tpl": "541"
     }
-    #debug =True
+    headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
 
     def edit_data(self, data, keyword, page):
         data["q"] = str(keyword)
@@ -40,7 +37,7 @@ class JinanSpider(ZhengFuBaseSpider):
         items = [Selector(text=item, type="html") for item in items_box]
         return items
 
-    def edit_item(self, item) ->dict:
+    def edit_item(self, item):
         data = {
             'url': item.css("div.jcse-news-url > a::text").get(),
             'title': item.css("div.jcse-news-title > a::text").getall(),
