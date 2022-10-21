@@ -6,6 +6,7 @@ class X信阳(ZhengFuBaseSpider):
     name = '信阳'
     api = "https://search1.henan.gov.cn/jrobot/search.do?_cus_lq_field_107=&_cus_eq_field_105=&_cus_eq_field_110=&_cus_pq_content=&_cus_eq_field_118=&_cus_eq_field_119=&_cus_eq_field_108=&_cus_eq_field_111=&_cus_eq_field_113=&_cus_eq_field_112=&webid=450001&pg=12&p={page}&tpl=&category=&_cus_query=&_cus_pq_content=&q={keyword}&pos=&od=&date=&date="
     method = "GET"
+    debug: bool = True
 
     def edit_page(self, response: Response) -> int:
         pages = response.css("#jsearch-info-box::attr(data-total)").get()
