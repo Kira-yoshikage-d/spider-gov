@@ -1,2 +1,0 @@
-bson/_cbson.cpython-39-darwin.so
-pymongo/_cmessage.cpython-39-darwin.so
