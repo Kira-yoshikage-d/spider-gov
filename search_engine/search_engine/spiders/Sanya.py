@@ -1,7 +1,7 @@
 from scrapy.responsetypes import Response
 from search_engine.basepro import ZhengFuBaseSpider
 
-class SanyaSpider(ZhengFuBaseSpider):
+class S三亚(ZhengFuBaseSpider):
     """TODO crawl"""
     name = '三亚'
     method = "GET"
@@ -19,7 +19,12 @@ class SanyaSpider(ZhengFuBaseSpider):
         return response.css("div.wordGuide.Residence-permit")
 
     def edit_item(self, item):
-        result = {}
-        result['url'] = item.css("div.bigTit.clearfix > a::attr(href)").get()
-        return result
+        data = {
+            'url': item.css("div.bigTit.clearfix > a::attr(href)").get(),
+            'title':item.css("div.bigTit.clearfix > a::attr(title)").get(),
+            'date':item.css("p.time > span::text").get(),
+            'sourse':item.css("p.time > a::text").get(),
+            'type':item.css("div.bigTit.clearfix > a::attr(data)").get()
+        }
+        return data
 
