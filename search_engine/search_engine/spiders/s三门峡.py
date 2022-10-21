@@ -2,11 +2,10 @@ from search_engine.basepro import ZhengFuBaseSpider
 from scrapy.responsetypes import Response
 from scrapy import Selector
 
-class s三门峡Spider(ZhengFuBaseSpider):
+class S三门峡Spider(ZhengFuBaseSpider):
     name = '三门峡'
     api = "https://smx.gov.cn/pageView/classifiedSearch.html?pageNum={page}&searchText={keyword}&s_lmnrlx=-1&s_fbsj_s=&s_fbsj_e=&protocol="
     method = "GET"
-    debug = True
 
     def edit_page(self, response: Response) -> int:
         pages : str = response.css("div.banner.w.clearfix > div.search.clearfix > div.search_left.fl > div.result.clearfix > p>span::text").get()#.re("<span>(.*?)</span>")[0]
