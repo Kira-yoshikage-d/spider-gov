@@ -45,7 +45,10 @@ class Command(ScrapyCommand):
                 if 'http' in item['url']:
                     csv_writer.writerow(item)
 
-        print("dumps into data/dumps/{0}.csv".format(city))
+        total_doc_num = client['scrapy_gov'][city].count_documents(filter={})
+        content_doc_num = client['scrapy_gov'][city].count_documents(filter={'content': {'$exists': True}})
+
+        print("[coverage: {0:>6.2%} ]: dumps into data/dumps/{1}.csv".format(content_doc_num/total_doc_num, city))
 
     def run(self, args, opts):
         for city in args:

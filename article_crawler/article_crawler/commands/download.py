@@ -91,7 +91,10 @@ class Command(ScrapyCommand):
                     csv_writer.writerow(item)
                     pbar.update(1)
 
-        print("downloaded into data/download/{0}.csv".format(city))
+        total_doc_num = client['scrapy_gov'][city].count_documents(filter={})
+        content_doc_num = client['scrapy_gov'][city].count_documents(filter={'content': {'$exists': True}})
+
+        print("[coverage: {0:>6.2%} ]: downloaded into data/download/{1}.csv".format(content_doc_num/total_doc_num, city))
 
     def run(self, args, opts):
         for city in args:

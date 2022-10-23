@@ -23,6 +23,7 @@ class baseSpider(Spider):
         # TODO
         self.handled = []
         self.mail = MailSender.from_settings(settings=project.get_project_settings())
+        self.client = MongoClient(get_project_settings().get('MONGODB_URI'))
 
     def start_requests(self):
         rg = RequestGenerator(self.name)
@@ -72,7 +73,7 @@ class baseSpider(Spider):
         return result
 
     def closed(self, reason):
-        client = MongoClient(get_project_settings().get('MONGODB_URI'))
+        client = self.client
 
         total_num: int = client['scrapy_gov'][self.name].count_documents(
             filter={}
