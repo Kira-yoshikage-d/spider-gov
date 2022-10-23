@@ -14,6 +14,7 @@ from scrapy.utils import project
 
 class baseSpider(Spider):
     """article_crawler 的基础爬虫"""
+    handle_httpstatus_list = [404]
     parser_hooks = defaultdict(list)
 
     def __init__(self, **kwargs):
@@ -29,7 +30,13 @@ class baseSpider(Spider):
             request = Request(url=item['url'], callback=self.main_parser, meta={'url': item['url']})
             yield request
 
+    def delete_url(self, url):
+        pass
+
     def main_parser(self, response: Response):
+        if response.status == 404:
+            self.delete_url(response.url)
+            return
         url = response.meta['url']
         for parser_func in self.parser_hooks[self.name]:
             try:
@@ -65,9 +72,27 @@ class baseSpider(Spider):
         return result
 
     def closed(self, reason):
+        client = MongoClient(get_project_settings().get('MONGODB_URI'))
+
+        total_num: int = client['scrapy_gov'][self.name].count_documents(
+            filter={}
+        )
+
+        content_num: int = client['scrapy_gov'][self.name].count_documents(
+            filter={
+                'content': {
+                    '$exists': True
+                }
+            }
+        )
+
+        coverage_rate = float(content_num)/float(total_num)
+
         subject = 'scrapy report'
         body = """
-        article_crawler 蜘蛛 {0} 完成运行, 原因{1}.""".format(self.name, reason)
+        article_crawler 蜘蛛 {0} 完成运行, 原因{1}.
+        page_contain_content: {2}.
+        coverage rate: {3:.2%}%""".format(self.name, reason, content_num, coverage_rate)
         return self.mail.send(to=["1070642565@qq.com"], subject=subject, body=body)
 
     @classmethod

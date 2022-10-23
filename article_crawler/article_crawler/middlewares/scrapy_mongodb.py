@@ -252,6 +252,10 @@ class MongoDBPipeline(BaseItemExporter):
             else:
                 key[self.config['unique_key']] = item[self.config['unique_key']]
 
+            ############
+            #  custom  #
+            ############
+
             diff = {'$set': {k:item[k] for k in item if k not in self.config['unique_key']}}
 
             collection.update_one(key, diff, upsert=True)
