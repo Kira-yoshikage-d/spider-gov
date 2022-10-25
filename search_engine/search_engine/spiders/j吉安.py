@@ -15,8 +15,8 @@ class JianSpider(ZhengFuBaseSpider):
         return int(data.get('total', 0))//10+1
 
     def edit_items_box(self, response: Response):
-        b = random.randint(1, 10)
-        time.sleep(b)
+        #  b = random.randint(1, 10)
+        #  time.sleep(b)
         return response.json().get('data')
 
     def edit_item(self, item):
