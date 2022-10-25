@@ -7,7 +7,6 @@ class XuanchengSpider(ZhengFuBaseSpider):
     name = '宣城'
     api = "http://search.xuancheng.gov.cn/searchData?keyword={keyword}&siteId=1&field=all&page={page}"
     method = "GET"
-    debug = True
 
     def edit_items_box(self, response):
         items_box = response.css("div.result-list")
