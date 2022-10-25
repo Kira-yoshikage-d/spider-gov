@@ -7,5 +7,5 @@ class A晋城Spider(baseSpider):
     @baseSpider.parser('晋城', 'www.jcgov.gov.cn')
     def parser_1(self, response, **kwargs):
         return {
-            'content': response.css("div.generalContent  ::text").getall()
+            'content': response.css("div.generalContent  :not(script):not(style)::text").getall()
         }

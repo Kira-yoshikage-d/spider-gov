@@ -107,6 +107,7 @@ def common_prcess(df: pd.DataFrame):
 
     # 去除换行
     df['content'] = df['content'].str.replace('\n', '')
+    df['content'] = df['content'].str.replace('\r', '')
     return df
 
 
