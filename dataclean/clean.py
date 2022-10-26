@@ -55,7 +55,6 @@ def all(ctx, output_format):
         ctx.invoke(one, output_format=output_format, data_stem=data_stem)
         click.echo('-'*89)
 
-
 ################
 #  help funcs  #
 ################
@@ -104,6 +103,10 @@ def common_prcess(df: pd.DataFrame):
 
     # 筛选包含关键字的观测
     df = df[df['content'].map(partial(contain_keywords, keywords=keywords))]
+
+    # 去重
+    df = df.sort_values(by='content')
+    df = df.drop_duplicates(subset=['content'])
 
     # 去除换行
     df['content'] = df['content'].str.replace('\n', '')
