@@ -21,3 +21,9 @@ class A郑州Spider(baseSpider):
         return {
             'content': response.css("div.content-text  :not(script):not(style)::text").getall()
         }
+
+    @baseSpider.parser('郑州', 'amr.zhengzhou.gov.cn')
+    def parser_4(self, response, **kwargs):
+        return {
+            'content': response.css("div.article-content  :not(script):not(style)::text").getall()
+        }
