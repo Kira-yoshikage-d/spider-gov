@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from sys import argv
+from scrapy import Selector
+
+def main():
+    parse_str_css = argv[1]
+    file_name = argv[2]
+
+    with open(file=file_name, mode="rt", encoding="utf8") as f:
+        raw_html = f.read()
+
+    s = Selector(text=raw_html)
+    try:
+        result = s.css(parse_str_css)
+    except Exception as e:
+        print('Error> ' + str(e))
+        result = None
+
+    if not result:
+        exit(-1)
+
+    if isinstance(result, list):
+        for item in result.getall():
+            print('Parse> ' + str(item))
+
+        exit(0)
+
+    print('Parse> ' + str(result.get()))
+    exit(0)
+
+if __name__ == "__main__":
+    main()
+
