@@ -139,6 +139,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         else:
             for keyword in keywords:
                 data = self.build_data(keyword, page, **kwargs)
+                url = url.format(keyword=keyword, page=page)
                 req = FormRequestCLS(
                     url=url,
                     meta={"keyword": keyword, "formdata": data, "page": page},

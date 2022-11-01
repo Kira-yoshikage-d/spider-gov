@@ -46,7 +46,6 @@ class A平顶山Spider(ZhengFuBaseSpider):
         """
         total = response.css("::text").re(".*共(.*)记录")
         total = total[0] if total else 9
-        print(int(total)//10 + 1)
         return int(total)//10 + 1
 
 

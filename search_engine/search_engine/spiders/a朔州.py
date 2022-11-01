@@ -1,7 +1,6 @@
 from typing import Any, Generator, Iterable, List, Optional, Union
 
 from search_engine.basepro import ZhengFuBaseSpider
-from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
@@ -35,8 +34,6 @@ class A朔州Spider(ZhengFuBaseSpider):
         'searchColumn': '',
         'StringEncoding': 'utf-8'
     }
-    debug: bool = False
-
 
     def edit_page(self, response: Selector) -> int:
         """
@@ -54,14 +51,6 @@ class A朔州Spider(ZhengFuBaseSpider):
         """
         return response.css("div.search-result-cntbox div")
 
-    def edit_items(self, items_box: Any) -> Iterable[Any]:
-        """
-        从items容器中解析出items的迭代容器
-        input: items_box
-        return: items
-        """
-        return items_box
-
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
         将从items容器中迭代出的item解析出信息
@@ -69,11 +58,11 @@ class A朔州Spider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("h3 a::text").get(),
-            'url': item.css("h3 a::attr(href)").get(),
-            'source': item.css("div.rst-ft span::text").get().strip(),
-            'date': item.css("div.rst-ft span::text").getall()[-1],
-            'type': item.css("h3 span::text").get()
+            'title': item.css("h3.str-title > a::text").get(),
+            'url': item.css("h3.str-title > a::attr(href)").get(),
+            'source': item.css("div.rst-ft > span::text").get(),
+            'date': item.css("div.rst-ft > span:nth-child(3)::text").get(),
+            'type': item.css("h3.str-title > span::text").get()
         }
         return result
 
