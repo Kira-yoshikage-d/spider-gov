@@ -26,3 +26,5 @@ dbs/
 eggs/
 project.egg-info/
 *.egg
+
+!/dataclean/data
