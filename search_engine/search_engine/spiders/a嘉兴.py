@@ -36,12 +36,11 @@ class JiaxingSpider(ZhengFuBaseSpider):
 
     def edit_item(self, item):
         data = {}
-        urllink = "https://search.zj.gov.cn/jrobotfront/"
-        data['url'] = urllink+item.css("div.titleWrapper > a::attr(href)").get()
-        data['type'] = item.css("div.titleWrapper > input.tagclass::attr(value)").get()
-        data['title'] = item.css("div.titleWrapper > a::text").getall()
-        data['source'] = item.css("div.sourceTime >span:nth-child(1)::text").get()
-        data['date'] = item.css("div.sourceTime >span:nth-child(2)::text ").get()
+        data['url'] = item.css("div.jcse-news-title > a::attr(href)").get()
+        data['type'] = item.css("span.typeTtitle > input.tagclass::attr(value)").get()
+        data['title'] = item.css("div.jcse-news-title > a::text").getall()
+        data['source'] = item.css("span.jcse-news-date.jcse-news-date2::text").get()
+        data['date'] = item.css("span.jcse-news-date.jcse-news-date1::text ").get()
         return data
 
     def edit_items(self, items_box):
