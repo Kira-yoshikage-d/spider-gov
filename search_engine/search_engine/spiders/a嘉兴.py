@@ -18,18 +18,16 @@ class JiaxingSpider(ZhengFuBaseSpider):
     data = {
         "websiteid": "330401000000000",
         "pg": "10",
-        "p": "1",
+        "p": "{page}",
         "tpl": "2296",
-        "cateid": "370",
+        "Municipal_webid": "330401000000000",
+        "Municipal_name": "嘉兴市",
         "isContains": "0",
-        "q": "价格",
-        "sortType": "1"
+        "q": "{keyword}",
+        "cateid": "370",
+        "sortType": "1",
+        "pos": "filenumber,title,content,keyword",
     }
-
-    def edit_data(self, data, keyword, page):
-        data["word"] = str(keyword)
-        data["current"] = str(page)
-        return data
 
     def edit_items_box(self, response):
         return response.json().get('result')
