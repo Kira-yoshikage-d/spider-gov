@@ -1,14 +1,10 @@
 **/*.csv
-**/*.json
 
 *.csv
-*.json
 *.xlsx
 *.zip
 
 *.~undotree~
-
-db.py
 
 keywords.txt
 
