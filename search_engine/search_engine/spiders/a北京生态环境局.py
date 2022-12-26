@@ -15,7 +15,7 @@ class A北京生态环境局(ZhengFuBaseSpider):
     }
     name = '北京生态环境局'
     token_url = 'http://sthjj.beijing.gov.cn/so/s?qt={keyword}&siteCode=1100000122&tab=all&toolsStatus=1'
-    api = 'http://sthjj.beijing.gov.cn/so/s'
+    api = 'http://sthjj.beijing.gov.cn/so/ss/s'
     method = "POST"
     debug: bool = False
     data = {
