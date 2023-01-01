@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
         proc_scrapyd.wait()
         proc_spiderkeeper.wait()
-    except KeyboardInterrupt:
+    except:
         print("terminating...")
         print("terminate scrapyd.")
         proc_scrapyd.terminate()
