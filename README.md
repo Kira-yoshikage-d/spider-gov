@@ -12,6 +12,37 @@ __本项目用于学术研究自用，请勿用于违法行为，否则后果自
 
 search_engine 爬取索引 + article_crawler 爬取正文
 
+## 使用
+
+1. 安装最新的Mongodb并启动；
+
+2. 安装依赖;
+
+```shell
+pip install -r requirements.txt
+```
+
+3. 安装spiderkeeper（非必须）;
+
+原先的spiderkeeper已经很久没有维护了，请安装这个版本
+
+```shell
+git clone https://github.com/tiwe0/SpiderKeeperX.git
+cd SpiderKeeperX
+pip install .
+```
+
+4. 启动项目
+
+在runtime文件夹下，调用启动脚本
+
+```shell
+cd runtime
+python3 launch.py
+```
+
+如果你配置了步骤3，那么你可以直接打开http://127.0.0.1:5000/对爬虫进行管理，默认的用户名与密码均为admin.
+
 ### search_engine 用于编写网站对应的搜索引擎
 
 #### 配置
@@ -52,15 +83,15 @@ search_engine 爬取索引 + article_crawler 爬取正文
 
         ```json
         {
-            'keywords_set_1': {
-                'city_1': '...',
-                'city_2': '...',
-                'city_3': '...',
+            "keywords_set_1": {
+                "city_1": "...",
+                "city_2": "...",
+                "city_3": "...",
             },
-            'keywords_set_2': {
-                'city_1': '...',
-                'city_2': '...',
-                'city_3': '...',
+            "keywords_set_2": {
+                "city_1": "...",
+                "city_2": "...",
+                "city_3": "...",
             }
         }
         ```

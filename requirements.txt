@@ -1,0 +1,5 @@
+scrapyd
+scrapyd-client
+termcolor
+pymongo
+requests

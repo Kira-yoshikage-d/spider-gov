@@ -3,7 +3,6 @@
 *.csv
 *.xlsx
 *.zip
-*.db
 *.log
 
 *.~undotree~
@@ -20,9 +19,6 @@ data/
 __pycache__/
 
 build/
-dbs/
-eggs/
 project.egg-info/
-*.egg
 
 !/dataclean/data
