@@ -3,6 +3,8 @@
 *.csv
 *.xlsx
 *.zip
+*.db
+*.log
 
 *.~undotree~
 
