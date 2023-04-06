@@ -7,7 +7,7 @@ from scrapy import Selector
 
 class LangfangSpider(ZhengFuBaseSpider):
     name: str = '廊坊'
-    api: str = 'http://www.lf.gov.cn/search.aspx?fieldOption=title&modelID=0&searchType=0&keyword={keyword}&page={page}'
+    api: str = 'https://www.lf.gov.cn/search.aspx?fieldOption=title&modelID=0&searchType=0&keyword={keyword}&page={page}'
     method: str = 'GET'
     data: dict[str, Any] = {}
     debug: bool = False
@@ -18,7 +18,7 @@ class LangfangSpider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        total = response.css("#pe100_page_全站搜索按标题_普通式 > span::text").get()
+        total = response.css("#pe100_page_全站搜索按标题_普通式 > span::text").re("\d+")[0]
         return int(total)//200 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
@@ -36,9 +36,9 @@ class LangfangSpider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
-            'title': item.css("a.tit::attr(title)").get(),
+            'title': item.css("a.tit::text").get(),
             'url': 'http://www.lf.gov.cn' + item.css("a.tit::attr(href)").get(),
-            'source': item.css("a.node::text").get(),
+            'type': item.css("a.node::text").get(),
             'date': item.css("span.date::text").get(),
         }
         return result
