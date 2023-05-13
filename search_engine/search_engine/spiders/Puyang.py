@@ -7,10 +7,10 @@ from scrapy import Selector
 
 class PuyangSpider(ZhengFuBaseSpider):
     name: str = '濮阳'
-    api: str = 'http://www.puyang.gov.cn/zwxx/zwxx_search.asp?words={keyword}&bianhao=%C7%EB%CA%E4%C8%EB%CE%C4%BA%C5&nian=&wenzhong=0&token=1662895891&page={page}'
-    method: str = 'default'
+    api: str = 'http://www.puyang.gov.cn/zwxx/zwxx_search.asp?words={keyword}&token={token}&dtime={timestamp}&page={page}'
+    method: str = 'GET'
     data: dict[str, Any] = {}
-    debug: bool = False
+    debug: bool = True
 
 
     def edit_page(self, response: Selector) -> int:
@@ -18,7 +18,8 @@ class PuyangSpider(ZhengFuBaseSpider):
         input: response
         return: int
         """
-        raise NotImplementedError()
+        total = response.css("div.jsearch-info-box > span::text").get()
+        return int(total) // 10 + 1
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -26,7 +27,7 @@ class PuyangSpider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        raise NotImplementedError()
+        return response.css("div#jsearch-result-items div.jsearch-result-box")
 
     def edit_items(self, items_box: Any) -> Iterable[Any]:
         """
@@ -43,6 +44,9 @@ class PuyangSpider(ZhengFuBaseSpider):
         return: item_dict
         """
         result = {
+            "title": item.css("div.jsearch-result-title a::text").get(),
+            "url": item.css("div.jsearch-result-title a::attr(href)").get(),
+            "date": item.css("div.jsearch-result-abs-content span::text").get()
         }
         return result
 

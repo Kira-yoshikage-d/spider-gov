@@ -5,39 +5,30 @@ from scrapy.responsetypes import Response
 from scrapy import Selector
 
 
-class HezeSpider(ZhengFuBaseSpider):
+class A菏泽Spider(ZhengFuBaseSpider):
+    # 爬不到链接
     name: str = '菏泽'
-    api: str = 'http://www.heze.gov.cn/jsearchfront/interfaces/cateSearch.do'
+    api: str = 'http://www.heze.gov.cn/els-service/search/{page}/10'
     method: str = 'POST'
     data: dict[str, Any] = {
-        "websiteid": "371700000000000",
-        "q": "{keyword}",
-        "p": "{page}",
-        "pg": "20",
-        "cateid": "14491",
-        "pos": "",
-        "pq": "",
-        "oq": "",
-        "eq": "",
-        "begin": "",
-        "end": "",
-        "tpl": "27",
+        "dq": "0530",
+        "fwzt": 3,
+        "highlight": "1",
+        "isSearch": "1",
+        "subject": "{keyword}",
     }
     headers: dict[str, str] = {
-        "Content-Type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:104.0) Gecko/20100101 Firefox/104.0",
     }
-    debug: bool = False
-
+    json_mode = True
+    debug: bool = True
 
     def edit_page(self, response: Selector) -> int:
         """
         input: response
         return: int
         """
-        data = response.json()
-        page = data["total"]
-        return int(page) // 20 + 1
+        return int(response.json()["data"]["totalPages"])
 
     def edit_items_box(self, response: Selector) -> Union[Any, Iterable[Any]]:
         """
@@ -45,8 +36,15 @@ class HezeSpider(ZhengFuBaseSpider):
         input: response
         return: items_box
         """
-        data = response.json()
-        return data["result"]
+        return response.json()["data"]['contents']
+
+    def edit_items(self, items_box: Any) -> Iterable[Any]:
+        """
+        从items容器中解析出items的迭代容器
+        input: items_box
+        return: items
+        """
+        return items_box
 
     def edit_item(self, item: Any) -> Optional[dict[str, Union[str, int]]]:
         """
@@ -54,12 +52,9 @@ class HezeSpider(ZhengFuBaseSpider):
         input: items
         return: item_dict
         """
-        s = Selector(text=item)
         result = {
-            'title': s.css("div.jcse-news-title > a::text").get(),
-            'url': s.css("div.jcse-news-abs div.jcse-news-url a::text").get(),
-            'source': s.css("div.jcse-news-title > span::text").get(),
-            'date': s.css("div.jcse-news-other-info span.jcse-news-date::text").get(),
+            'title': item.get("subject",""),
+            'url': item.get("url","")
         }
         return result
 

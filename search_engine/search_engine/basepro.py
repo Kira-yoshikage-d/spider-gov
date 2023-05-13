@@ -1,6 +1,7 @@
 import abc
 import copy
 import os
+import time
 from typing import Any, Generator, Iterable, List, Optional, Union
 
 import scrapy
@@ -60,6 +61,18 @@ class ZhengFuBaseSpider(scrapy.Spider):
         self.keywords = KeywordsReader()[self.name]
         self.mail = MailSender.from_settings(settings=project.get_project_settings())
 
+    def edit_api(self, api, keyword, page):
+        """
+        修改API信息
+        """
+        timestamp = int(time.time())
+        url = api.format(keyword=keyword, page=page)
+        if "{timestamp}" in url:
+            url = url.format(timestamp=timestamp)
+        if "{token}" in url:
+            url = url.format(token=timestamp-1)
+        return url
+
     def start_requests(self) -> Generator[Union[Request, FormRequest], None, None]:
         """
         抛出初始请求
@@ -105,7 +118,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
             pass
         else:
             for keyword in keywords:
-                url = api.format(keyword=keyword, page=page)
+                url = self.edit_api(api, keyword, page)
                 req = Request(url=url,
                               meta={"keyword": keyword},
                               headers=headers,
@@ -117,6 +130,7 @@ class ZhengFuBaseSpider(scrapy.Spider):
         """抛出 POST 方法对应的起始请求."""
         keywords = self.keywords
         url = self.api_start if start_mode else self.api
+        url = url.format(page=page)
         headers = self.headers
         self.logger.debug("爬取 第{}页".format(page))
 
