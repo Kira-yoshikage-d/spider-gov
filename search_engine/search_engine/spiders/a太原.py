@@ -6,15 +6,6 @@ from scrapy import Selector
 
 
 class A太原Spider(ZhengFuBaseSpider):
-    """POST
-    TODO token 反爬"""
-    custom_settings: Optional[dict] = {
-        'DOWNLOADER_MIDDLEWARES': {
-            'search_engine.middlewares.WordTokenDownloaderMiddleware': 543,
-        },
-        'COOKIES_ENABLED': False,
-        'DOWNLOAD_DELAY': 0.5,
-    }
     name: str = '太原'
     token_url = 'http://www.taiyuan.gov.cn/so/s?tab=all&siteCode=1401000055&qt={keyword}'
     api = 'https://api.so-gov.cn/s'
@@ -33,7 +24,14 @@ class A太原Spider(ZhengFuBaseSpider):
         "keyPlace": "0",
         "fileType": "",
     }
-
+    custom_settings: Optional[dict] = {
+        'DOWNLOADER_MIDDLEWARES': {
+            'search_engine.middlewares.WordTokenDownloaderMiddleware': 543,
+        },
+        'COOKIES_ENABLED': False,
+        'DOWNLOAD_DELAY': 0.5,
+    }
+    
     def edit_page(self, response):
         # inspect_response(response, self)
         raw_data = response.json()
