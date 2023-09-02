@@ -10,7 +10,7 @@ class A安阳Spider(ZhengFuBaseSpider):
     api: str = 'https://searchapi.anyang.gov.cn/open/api/external?keywords={keyword}&siteId=4550000372&allKeyword=&anyKeyword=&noKeyword=&searchRange=-1000&sortType=150&beginTime=&endTime=&pageNumber={page}&pageSize=15&fileType=0&docType=0'
     method: str = 'GET'
     data: dict[str, Any] = {}
-    debug: bool = True
+    debug: bool = False
 
 
     def edit_page(self, response: Selector) -> int:
