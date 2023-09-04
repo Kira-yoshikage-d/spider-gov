@@ -7,5 +7,14 @@ class A滨州Spider(baseSpider):
     @baseSpider.parser('滨州', 'www.binzhou.gov.cn')
     def parser_1(self, response, **kwargs):
         return {
-            'content': response.css("#neirong  ::text").getall()
+            'content': response.css("div.newsconParse p::text").getall()
         }
+
+    @baseSpider.parser('滨州', 'www.binzhou.gov.cn')
+    def parser_2(self, response, **kwargs):
+        return {
+            'content': response.css("div table tr::text").getall()
+        }
+
+
+
